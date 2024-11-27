@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+// import 'button.dart';
 
 class CircleProgress extends CustomPainter {
   double value;
@@ -24,8 +25,8 @@ class CircleProgress extends CustomPainter {
       arcPaint = Paint()
         ..strokeWidth = 16
         ..color = (value < maxValue * 0.8)
-            ? Colors.red
-            : const Color.fromARGB(255, 255, 17, 0)
+            ? const Color.fromARGB(255, 61, 253, 93)
+            : (const Color.fromARGB(255, 255, 17, 0))
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
     } else if (type == "humid") {
@@ -33,7 +34,7 @@ class CircleProgress extends CustomPainter {
       arcPaint = Paint()
         ..strokeWidth = 16
         ..color = (value < maxValue * 0.8)
-            ? Colors.blue
+            ? Colors.blueAccent
             : const Color.fromARGB(255, 255, 17, 0)
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
@@ -42,7 +43,7 @@ class CircleProgress extends CustomPainter {
       arcPaint = Paint()
         ..strokeWidth = 16
         ..color = (value < maxValue * 0.8)
-            ? Colors.green
+            ? const Color.fromARGB(255, 255, 0, 85)
             : const Color.fromARGB(255, 255, 17, 0)
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
@@ -51,7 +52,7 @@ class CircleProgress extends CustomPainter {
       arcPaint = Paint()
         ..strokeWidth = 16
         ..color = (value < maxValue * 0.8)
-            ? Colors.yellow
+            ? const Color.fromARGB(255, 255, 255, 57)
             : const Color.fromARGB(255, 255, 17, 0)
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;

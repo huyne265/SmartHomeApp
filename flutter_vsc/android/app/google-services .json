@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "94062739323",
+    "firebase_url": "https://test-9c8d6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "test-9c8d6",
+    "storage_bucket": "test-9c8d6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94062739323:android:a46e381bf40570d90f07de",
+        "android_client_info": {
+          "package_name": "com.example.test_vsc_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrhrATiZiY9ZwdXaBHZISSYuJEkxkuZtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
