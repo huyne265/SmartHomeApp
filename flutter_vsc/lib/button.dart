@@ -16,9 +16,20 @@ class _RelayControlPageState extends State<RelayControlPage> {
   bool relay3 = false;
   bool relay4 = false;
 
+  double lightValue = 0.0;
+
   @override
   void initState() {
     super.initState();
+
+    databaseReference.child('Home/homeLightlevel').onValue.listen((event) {
+      final data = event.snapshot.value;
+      if (data != null) {
+        double newLightValue = double.tryParse(data.toString()) ?? 0.0;
+
+        _updateLightValue(newLightValue);
+      }
+    });
 
     databaseReference.child('Relay').onValue.listen((event) {
       final data = event.snapshot.value as Map?;
@@ -31,6 +42,25 @@ class _RelayControlPageState extends State<RelayControlPage> {
         });
       }
     });
+  }
+
+  void _updateLightValue(double newLightValue) {
+    setState(() {
+      lightValue = newLightValue;
+    });
+
+    //Relay1 - light
+    if (lightValue < 6 && !relay1) {
+      setState(() {
+        relay1 = true;
+      });
+      _toggleRelay('Relay1', true);
+    } else if (lightValue > 90 && relay1) {
+      setState(() {
+        relay1 = false;
+      });
+      _toggleRelay('Relay1', false);
+    }
   }
 
   void _toggleRelay(String relayKey, bool status) {
@@ -57,7 +87,7 @@ class _RelayControlPageState extends State<RelayControlPage> {
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.black26,
               offset: Offset(4, 4),

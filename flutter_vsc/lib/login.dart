@@ -17,22 +17,22 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  //Vào thẳng dashboard
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _navigateToDashBoard();
-  // }
+  // Vào thẳng dashboard
+  @override
+  void initState() {
+    super.initState();
+    _navigateToDashBoard();
+  }
 
-  // void _navigateToDashBoard() {
-  //   Future.delayed(Duration.zero, () {
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => const Dashboard()),
-  //     );
-  //   });
-  // }
-  //Vào thẳng dashboard
+  void _navigateToDashBoard() {
+    Future.delayed(Duration.zero, () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Dashboard()),
+      );
+    });
+  }
+  // Vào thẳng dashboard
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: <String>['email'],

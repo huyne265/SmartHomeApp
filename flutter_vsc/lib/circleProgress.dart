@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-// import 'button.dart';
 
 class CircleProgress extends CustomPainter {
   double value;

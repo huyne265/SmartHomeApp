@@ -31,7 +31,7 @@ class LogoutTab extends StatelessWidget {
     await GoogleSignIn().signOut();
 
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const MyApp()),
+      MaterialPageRoute(builder: (context) => MyApp()),
       (Route<dynamic> route) => false,
     );
   }

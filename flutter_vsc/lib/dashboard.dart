@@ -11,6 +11,7 @@ import 'button.dart';
 import 'mainTaskboard.dart';
 import 'logout.dart';
 import 'themeSwitch.dart';
+import 'relay_schedule.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -33,6 +34,8 @@ class _DashboardState extends State<Dashboard>
   late Animation<double> lightlevelAnimation = AlwaysStoppedAnimation(0.0);
 
   bool isDarkMode = false;
+
+  List<Map<String, dynamic>> schedules = [];
 
   @override
   void dispose() {
@@ -58,7 +61,7 @@ class _DashboardState extends State<Dashboard>
           isLoading = true;
           _dashboardinit(temp, humidity, airlevel, lightlevel);
         });
-        Future.delayed(const Duration(seconds: 5), () {
+        Future.delayed(const Duration(seconds: 3), () {
           _startRealtimeUpdates();
         });
       }
@@ -144,6 +147,98 @@ class _DashboardState extends State<Dashboard>
     progressController.forward(from: 0); // Chạy lại animation từ đầu
   }
 
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       theme: isDarkMode
+//           ? ThemeData.dark().copyWith(
+//               primaryColor: Colors.black,
+//               scaffoldBackgroundColor: Colors.black,
+//             )
+//           : ThemeData.light().copyWith(
+//               primaryColor: Colors.white,
+//               scaffoldBackgroundColor: Colors.white,
+//             ),
+//       debugShowCheckedModeBanner: false,
+//       home: DefaultTabController(
+//         length: 4,
+//         child: Scaffold(
+//           appBar: AppBar(
+//             backgroundColor: const Color.fromARGB(255, 0, 204, 255),
+//             title: const Text('ESP32 Temperature & Humidity App'),
+//             actions: [
+//               // Theme switch
+//               ThemeSwitcher(
+//                 onThemeChanged: (isDark) {
+//                   setState(() {
+//                     isDarkMode = isDark;
+//                   });
+//                 },
+//               ),
+//             ],
+//           ),
+//           body: Column(
+//             children: <Widget>[
+//               ButtonsTabBar(
+//                 radius: 12,
+//                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+//                 center: true,
+//                 decoration: const BoxDecoration(
+//                   gradient: LinearGradient(
+//                     colors: <Color>[
+//                       Color.fromARGB(255, 0, 204, 255),
+//                       Color.fromARGB(255, 61, 216, 255),
+//                       Color.fromARGB(255, 126, 229, 255),
+//                     ],
+//                   ),
+//                 ),
+//                 unselectedLabelStyle: const TextStyle(color: Colors.black),
+//                 labelStyle: const TextStyle(color: Colors.white),
+//                 height: 56,
+//                 tabs: const [
+//                   Tab(icon: Icon(Icons.home), text: "Main Taskboard"),
+//                   Tab(
+//                       icon: Icon(Icons.radio_button_checked_rounded),
+//                       text: "Button Taskboard"),
+//                   Tab(icon: Icon(Icons.schedule), text: "Schedule"),
+//                   Tab(icon: Icon(Icons.logout_outlined), text: "Log out"),
+//                 ],
+//               ),
+//               Expanded(
+//                 child: TabBarView(
+//                   children: <Widget>[
+//                     // Tab 1: Main Taskboard
+//                     MainTaskboard(
+//                       // isLoading: isLoading,
+//                       isLoading: true,
+//                       tempValue: tempAnimation.value,
+//                       humidityValue: humidityAnimation.value,
+//                       airLevelValue: airlevelAnimation.value,
+//                       lightLevelValue: lightlevelAnimation.value,
+//                     ),
+//                     // Tab 2: Button Taskboard
+//                     const RelayControlPage(),
+//                     //Tab3: schedule
+//                     ScheduleApp(schedules: schedules),
+//                     // Tab 3: Logout
+//                     LogoutTab(
+//                       onSignOut: () {
+//                         setState(() {
+//                           isLoading = false;
+//                         });
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -158,13 +253,12 @@ class _DashboardState extends State<Dashboard>
             ),
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 0, 204, 255),
             title: const Text('ESP32 Temperature & Humidity App'),
             actions: [
-              // Theme switch
               ThemeSwitcher(
                 onThemeChanged: (isDark) {
                   setState(() {
@@ -174,55 +268,39 @@ class _DashboardState extends State<Dashboard>
               ),
             ],
           ),
-          body: Column(
+          body: TabBarView(
             children: <Widget>[
-              ButtonsTabBar(
-                radius: 12,
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                center: true,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: <Color>[
-                      const Color.fromARGB(255, 0, 204, 255),
-                      const Color.fromARGB(255, 61, 216, 255),
-                      const Color.fromARGB(255, 126, 229, 255),
-                    ],
-                  ),
-                ),
-                unselectedLabelStyle: TextStyle(color: Colors.black),
-                labelStyle: TextStyle(color: Colors.white),
-                height: 56,
-                tabs: const [
-                  Tab(text: "Main Taskboard"),
-                  Tab(text: "Button Taskboard"),
-                  Tab(text: "Log out"),
-                ],
+              MainTaskboard(
+                isLoading: true,
+                tempValue: tempAnimation.value,
+                humidityValue: humidityAnimation.value,
+                airLevelValue: airlevelAnimation.value,
+                lightLevelValue: lightlevelAnimation.value,
               ),
-              Expanded(
-                child: TabBarView(
-                  children: <Widget>[
-                    // Tab 1: Main Taskboard
-                    MainTaskboard(
-                      isLoading: isLoading,
-                      tempValue: tempAnimation.value,
-                      humidityValue: humidityAnimation.value,
-                      airLevelValue: airlevelAnimation.value,
-                      lightLevelValue: lightlevelAnimation.value,
-                    ),
-                    // Tab 2: Button Taskboard
-                    const RelayControlPage(),
-                    // Tab 3: Logout
-                    LogoutTab(
-                      onSignOut: () {
-                        setState(() {
-                          isLoading = false;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+              const RelayControlPage(),
+              ScheduleApp(schedules: schedules),
+              LogoutTab(
+                onSignOut: () {
+                  setState(() {
+                    isLoading = false;
+                  });
+                },
               ),
             ],
+          ),
+          bottomNavigationBar: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.home), text: "Main Taskboard"),
+              Tab(
+                  icon: Icon(Icons.radio_button_checked),
+                  text: "Button Taskboard"),
+              Tab(icon: Icon(Icons.schedule), text: "Schedule"),
+              Tab(icon: Icon(Icons.logout), text: "Log out"),
+            ],
+            labelColor: Color.fromARGB(255, 93, 223, 255),
+            unselectedLabelColor: Colors.black,
+            indicatorColor: Colors.blue,
+            labelStyle: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
       ),
