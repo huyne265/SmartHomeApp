@@ -1,17 +1,16 @@
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:intl/intl.dart';
 
-// import 'circleProgress.dart';
-// import 'main.dart';
 import 'button.dart';
 import 'mainTaskboard.dart';
 import 'logout.dart';
 import 'themeSwitch.dart';
 import 'relay_schedule.dart';
+import 'ir_device.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -28,18 +27,24 @@ class _DashboardState extends State<Dashboard>
   final databaseReference = FirebaseDatabase.instance.ref();
 
   late AnimationController progressController;
-  late Animation<double> tempAnimation = AlwaysStoppedAnimation(0.0);
-  late Animation<double> humidityAnimation = AlwaysStoppedAnimation(0.0);
-  late Animation<double> airlevelAnimation = AlwaysStoppedAnimation(0.0);
-  late Animation<double> lightlevelAnimation = AlwaysStoppedAnimation(0.0);
+  late Animation<double> tempAnimation = const AlwaysStoppedAnimation(0.0);
+  late Animation<double> humidityAnimation = const AlwaysStoppedAnimation(0.0);
+  late Animation<double> airlevelAnimation = const AlwaysStoppedAnimation(0.0);
+  late Animation<double> lightlevelAnimation =
+      const AlwaysStoppedAnimation(0.0);
 
   bool isDarkMode = false;
 
   List<Map<String, dynamic>> schedules = [];
 
+  DateTime currentDateTime = DateTime.now();
+  late Timer _timer;
+
   @override
   void dispose() {
     progressController.dispose();
+
+    _timer.cancel();
     super.dispose();
   }
 
@@ -65,6 +70,15 @@ class _DashboardState extends State<Dashboard>
           _startRealtimeUpdates();
         });
       }
+    });
+
+    currentDateTime = DateTime.now();
+
+    // Cập nhật thời gian mỗi giây
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      setState(() {
+        currentDateTime = DateTime.now();
+      });
     });
   }
 
@@ -147,97 +161,14 @@ class _DashboardState extends State<Dashboard>
     progressController.forward(from: 0); // Chạy lại animation từ đầu
   }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       theme: isDarkMode
-//           ? ThemeData.dark().copyWith(
-//               primaryColor: Colors.black,
-//               scaffoldBackgroundColor: Colors.black,
-//             )
-//           : ThemeData.light().copyWith(
-//               primaryColor: Colors.white,
-//               scaffoldBackgroundColor: Colors.white,
-//             ),
-//       debugShowCheckedModeBanner: false,
-//       home: DefaultTabController(
-//         length: 4,
-//         child: Scaffold(
-//           appBar: AppBar(
-//             backgroundColor: const Color.fromARGB(255, 0, 204, 255),
-//             title: const Text('ESP32 Temperature & Humidity App'),
-//             actions: [
-//               // Theme switch
-//               ThemeSwitcher(
-//                 onThemeChanged: (isDark) {
-//                   setState(() {
-//                     isDarkMode = isDark;
-//                   });
-//                 },
-//               ),
-//             ],
-//           ),
-//           body: Column(
-//             children: <Widget>[
-//               ButtonsTabBar(
-//                 radius: 12,
-//                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-//                 center: true,
-//                 decoration: const BoxDecoration(
-//                   gradient: LinearGradient(
-//                     colors: <Color>[
-//                       Color.fromARGB(255, 0, 204, 255),
-//                       Color.fromARGB(255, 61, 216, 255),
-//                       Color.fromARGB(255, 126, 229, 255),
-//                     ],
-//                   ),
-//                 ),
-//                 unselectedLabelStyle: const TextStyle(color: Colors.black),
-//                 labelStyle: const TextStyle(color: Colors.white),
-//                 height: 56,
-//                 tabs: const [
-//                   Tab(icon: Icon(Icons.home), text: "Main Taskboard"),
-//                   Tab(
-//                       icon: Icon(Icons.radio_button_checked_rounded),
-//                       text: "Button Taskboard"),
-//                   Tab(icon: Icon(Icons.schedule), text: "Schedule"),
-//                   Tab(icon: Icon(Icons.logout_outlined), text: "Log out"),
-//                 ],
-//               ),
-//               Expanded(
-//                 child: TabBarView(
-//                   children: <Widget>[
-//                     // Tab 1: Main Taskboard
-//                     MainTaskboard(
-//                       // isLoading: isLoading,
-//                       isLoading: true,
-//                       tempValue: tempAnimation.value,
-//                       humidityValue: humidityAnimation.value,
-//                       airLevelValue: airlevelAnimation.value,
-//                       lightLevelValue: lightlevelAnimation.value,
-//                     ),
-//                     // Tab 2: Button Taskboard
-//                     const RelayControlPage(),
-//                     //Tab3: schedule
-//                     ScheduleApp(schedules: schedules),
-//                     // Tab 3: Logout
-//                     LogoutTab(
-//                       onSignOut: () {
-//                         setState(() {
-//                           isLoading = false;
-//                         });
-//                       },
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  IconData getCurrentIcon() {
+    int hour = currentDateTime.hour;
+    if (hour >= 6 && hour < 18) {
+      return Icons.wb_sunny; // Mặt trời
+    } else {
+      return Icons.nights_stay; // Mặt trăng
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -253,11 +184,11 @@ class _DashboardState extends State<Dashboard>
             ),
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
-        length: 4,
+        length: 5,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 0, 204, 255),
-            title: const Text('ESP32 Temperature & Humidity App'),
+            title: const Text('Smart Room App'),
             actions: [
               ThemeSwitcher(
                 onThemeChanged: (isDark) {
@@ -268,32 +199,88 @@ class _DashboardState extends State<Dashboard>
               ),
             ],
           ),
-          body: TabBarView(
-            children: <Widget>[
-              MainTaskboard(
-                isLoading: true,
-                tempValue: tempAnimation.value,
-                humidityValue: humidityAnimation.value,
-                airLevelValue: airlevelAnimation.value,
-                lightLevelValue: lightlevelAnimation.value,
+          body: Stack(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 255, 251, 251),
+                ),
+                child: TabBarView(
+                  children: <Widget>[
+                    MainTaskboard(
+                      isLoading: true,
+                      tempValue: tempAnimation.value,
+                      humidityValue: humidityAnimation.value,
+                      airLevelValue: airlevelAnimation.value,
+                      lightLevelValue: lightlevelAnimation.value,
+                    ),
+                    const RelayControlPage(),
+                    IRDeviceUI(),
+                    ScheduleApp(schedules: schedules),
+                    LogoutTab(
+                      onSignOut: () {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
-              const RelayControlPage(),
-              ScheduleApp(schedules: schedules),
-              LogoutTab(
-                onSignOut: () {
-                  setState(() {
-                    isLoading = false;
-                  });
-                },
-              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.3),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            DateFormat('EEEE, dd/MM/yyyy')
+                                .format(currentDateTime),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        DateFormat('HH:mm:ss').format(currentDateTime),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
           bottomNavigationBar: const TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.home), text: "Main Taskboard"),
+              Tab(icon: Icon(Icons.home), text: "Home"),
               Tab(
                   icon: Icon(Icons.radio_button_checked),
                   text: "Button Taskboard"),
+              Tab(
+                icon: Icon(Icons.wb_iridescent_rounded),
+                text: "IR Device",
+              ),
               Tab(icon: Icon(Icons.schedule), text: "Schedule"),
               Tab(icon: Icon(Icons.logout), text: "Log out"),
             ],

@@ -55,7 +55,7 @@ class MainTaskboard extends StatelessWidget {
                     ),
                     CustomPaint(
                       foregroundPainter:
-                          CircleProgress(airLevelValue, "air", maxValue: 5000),
+                          CircleProgress(airLevelValue, "air", maxValue: 1000),
                       child: Container(
                         width: 150,
                         height: 150,
@@ -86,7 +86,8 @@ class MainTaskboard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     CustomPaint(
-                      foregroundPainter: CircleProgress(humidityValue, "humid"),
+                      foregroundPainter:
+                          CircleProgress(humidityValue, "humid", maxValue: 200),
                       child: Container(
                         width: 150,
                         height: 150,
@@ -111,8 +112,9 @@ class MainTaskboard extends StatelessWidget {
                       ),
                     ),
                     CustomPaint(
-                      foregroundPainter:
-                          CircleProgress(lightLevelValue, "light"),
+                      foregroundPainter: CircleProgress(
+                          lightLevelValue, "light",
+                          maxValue: 5000),
                       child: Container(
                         width: 150,
                         height: 150,

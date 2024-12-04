@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dashboard.dart';
+import 'register.dart';
 
 class LoginScreen extends StatefulWidget {
   final String title;
@@ -17,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // Vào thẳng dashboard
+  // // Vào thẳng dashboard
   @override
   void initState() {
     super.initState();
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     });
   }
-  // Vào thẳng dashboard
+  // // Vào thẳng dashboard
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: <String>['email'],
@@ -105,13 +106,33 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 300,
               height: 300,
             ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _handleGoogleSignIn,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
+            const SizedBox(height: 20),
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(
+                hintText: 'Email ID',
+                border: OutlineInputBorder(),
               ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(
+                hintText: 'Enter Password',
+                border: OutlineInputBorder(),
+              ),
+              obscureText: true,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _handleEmailSignIn,
+              child: const Text('Log In'),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextButton(
+              onPressed: _handleGoogleSignIn,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -125,6 +146,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text('Sign in with Google'),
                 ],
               ),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen()),
+                );
+              },
+              child:
+                  const Text('Don\'t have an account yet? Create an account'),
             ),
           ],
         ),
