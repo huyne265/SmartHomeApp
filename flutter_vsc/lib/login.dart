@@ -19,20 +19,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   // // Vào thẳng dashboard
-  @override
-  void initState() {
-    super.initState();
-    _navigateToDashBoard();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _navigateToDashBoard();
+  // }
 
-  void _navigateToDashBoard() {
-    Future.delayed(Duration.zero, () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Dashboard()),
-      );
-    });
-  }
+  // void _navigateToDashBoard() {
+  //   Future.delayed(Duration.zero, () {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => const Dashboard()),
+  //     );
+  //   });
+  // }
   // // Vào thẳng dashboard
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(

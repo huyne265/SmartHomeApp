@@ -10,12 +10,34 @@ class _IRDeviceUIState extends State<IRDeviceUI> {
   final DatabaseReference databaseRef = FirebaseDatabase.instance.ref();
   Map buttonStates = {};
 
+  final Map<String, String> buttonToFirebaseKey = {
+    '1': 'key1',
+    '2': 'key2',
+    '3': 'key3',
+    '4': 'key4',
+    '5': 'key5',
+    '6': 'key6',
+    '7': 'key7',
+    '8': 'key8',
+    '9': 'key9',
+    '0': 'key0',
+    '*': 'key_star',
+    '#': 'key_sharp',
+    '▲': 'key_up',
+    '◄': 'key_left',
+    'OK': 'key_ok',
+    '►': 'key_right',
+    '▼': 'key_down',
+  };
+
   void _sendSignal(String buttonValue) {
-    String firebaseValue = buttonValue == '#' ? '%%' : buttonValue;
+    String? firebaseKey = buttonToFirebaseKey[buttonValue];
+    if (firebaseKey == null) return;
+
     setState(() {
       buttonStates[buttonValue] = true;
     });
-    databaseRef.child('ir_device').child(firebaseValue).set(1);
+    databaseRef.child('ir_device').child(firebaseKey).set(1);
     Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         buttonStates[buttonValue] = false;

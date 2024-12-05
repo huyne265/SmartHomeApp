@@ -3,12 +3,10 @@ import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:intl/intl.dart';
 
 import 'button.dart';
 import 'mainTaskboard.dart';
 import 'logout.dart';
-import 'themeSwitch.dart';
 import 'relay_schedule.dart';
 import 'ir_device.dart';
 
@@ -37,14 +35,9 @@ class _DashboardState extends State<Dashboard>
 
   List<Map<String, dynamic>> schedules = [];
 
-  DateTime currentDateTime = DateTime.now();
-  late Timer _timer;
-
   @override
   void dispose() {
     progressController.dispose();
-
-    _timer.cancel();
     super.dispose();
   }
 
@@ -70,15 +63,6 @@ class _DashboardState extends State<Dashboard>
           _startRealtimeUpdates();
         });
       }
-    });
-
-    currentDateTime = DateTime.now();
-
-    // Cập nhật thời gian mỗi giây
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      setState(() {
-        currentDateTime = DateTime.now();
-      });
     });
   }
 
@@ -161,15 +145,6 @@ class _DashboardState extends State<Dashboard>
     progressController.forward(from: 0); // Chạy lại animation từ đầu
   }
 
-  IconData getCurrentIcon() {
-    int hour = currentDateTime.hour;
-    if (hour >= 6 && hour < 18) {
-      return Icons.wb_sunny; // Mặt trời
-    } else {
-      return Icons.nights_stay; // Mặt trăng
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -189,15 +164,6 @@ class _DashboardState extends State<Dashboard>
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 0, 204, 255),
             title: const Text('Smart Room App'),
-            actions: [
-              ThemeSwitcher(
-                onThemeChanged: (isDark) {
-                  setState(() {
-                    isDarkMode = isDark;
-                  });
-                },
-              ),
-            ],
           ),
           body: Stack(
             children: [
@@ -227,48 +193,6 @@ class _DashboardState extends State<Dashboard>
                   ],
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            DateFormat('EEEE, dd/MM/yyyy')
-                                .format(currentDateTime),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        DateFormat('HH:mm:ss').format(currentDateTime),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
             ],
           ),
           bottomNavigationBar: const TabBar(
