@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "94062739323",
-    "firebase_url": "https://test-9c8d6-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "test-9c8d6",
-    "storage_bucket": "test-9c8d6.firebasestorage.app"
+    "project_number": "252924529231",
+    "project_id": "smartroomapp-1cad3",
+    "storage_bucket": "smartroomapp-1cad3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:94062739323:android:a46e381bf40570d90f07de",
+        "mobilesdk_app_id": "1:252924529231:android:0e3b45f35f04137b9ff83a",
         "android_client_info": {
           "package_name": "com.example.test_vsc_flutter"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBrhrATiZiY9ZwdXaBHZISSYuJEkxkuZtI"
+          "current_key": "AIzaSyDi3wsER1i6hglTNhM-BMCo-cvlgCyq4h0"
         }
       ],
       "services": {

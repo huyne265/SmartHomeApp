@@ -6,14 +6,15 @@ class FirebaseConfig {
     if (kIsWeb) {
       await Firebase.initializeApp(
           options: const FirebaseOptions(
-              apiKey: "AIzaSyDq552RtmjLM8ok1NhIKufMbw3_c73sppk",
-              authDomain: "test-9c8d6.firebaseapp.com",
+              apiKey: "AIzaSyAIMkx2XnNrD4Fy0TWyFNAi_pKKqwHMDUg",
+              authDomain: "smartroomapp-1cad3.firebaseapp.com",
+              projectId: "smartroomapp-1cad3",
               databaseURL:
-                  "https://test-9c8d6-default-rtdb.asia-southeast1.firebasedatabase.app",
-              projectId: "test-9c8d6",
-              storageBucket: "test-9c8d6.firebasestorage.app",
-              messagingSenderId: "94062739323",
-              appId: "1:94062739323:web:f6bd9a93c9b5ba190f07de"));
+                  "https://smartroomapp-1cad3-default-rtdb.asia-southeast1.firebasedatabase.app/",
+              storageBucket: "smartroomapp-1cad3.firebasestorage.app",
+              messagingSenderId: "252924529231",
+              appId: "1:252924529231:web:cdcf21fcb30500189ff83a",
+              measurementId: "G-CXPLKEMKQ3"));
     } else {
       await Firebase.initializeApp();
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'circleProgress.dart';
-import 'package:intl/intl.dart';
+
+import 'clock.dart';
 
 class MainTaskboard extends StatelessWidget {
   final bool isLoading;
@@ -20,15 +21,7 @@ class MainTaskboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EEEE, MMMM d, yyyy').format(now);
-    String formattedTime = DateFormat('hh:mm:ss a').format(now);
-    bool isDayTime = now.hour >= 6 && now.hour < 18;
-    // Get current date and time
-    Stream<DateTime> dateTimeStream = Stream.periodic(
-      const Duration(seconds: 1),
-      (_) => DateTime.now(),
-    );
+    bool isDayTime = DateTime.now().hour >= 6 && DateTime.now().hour <= 18;
     return Column(
       children: [
         // Date and Time Bar
@@ -37,44 +30,7 @@ class MainTaskboard extends StatelessWidget {
           color: isDayTime
               ? const Color.fromARGB(255, 172, 238, 255)
               : const Color.fromARGB(255, 190, 200, 204),
-          child: StreamBuilder<DateTime>(
-            stream: dateTimeStream,
-            builder: (context, snapshot) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        isDayTime ? Icons.wb_sunny : Icons.nights_stay,
-                        color: isDayTime ? Colors.orange : Colors.indigo,
-                        size: 30,
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            formattedDate,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            formattedTime,
-                            style: const TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          ),
+          child: ClockWidget(),
         ),
         Expanded(
           child: Center(

@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 
 import 'button.dart';
+import 'device.dart';
 import 'mainTaskboard.dart';
 import 'logout.dart';
 import 'relay_schedule.dart';
@@ -181,7 +184,7 @@ class _DashboardState extends State<Dashboard>
                       lightLevelValue: lightlevelAnimation.value,
                     ),
                     const RelayControlPage(),
-                    IRDeviceUI(),
+                    const DeviceControllerScreen(),
                     ScheduleApp(schedules: schedules),
                     LogoutTab(
                       onSignOut: () {

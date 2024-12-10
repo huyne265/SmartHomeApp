@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 
@@ -16,13 +17,24 @@ class _ScheduleAppState extends State<ScheduleApp> {
   final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   late List<Map<String, dynamic>> schedules;
   List<Timer?> scheduledTimers = [];
+  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
     super.initState();
+    // _initializeNotifications();
     schedules = widget.schedules;
     _scheduleAllTimers();
   }
+
+  // void _initializeNotifications() {
+  //   const AndroidInitializationSettings initializationSettingsAndroid =
+  //       AndroidInitializationSettings('@mipmap/ic_launcher');
+  //   final InitializationSettings initializationSettings =
+  //       InitializationSettings(android: initializationSettingsAndroid);
+  //   flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  // }
 
   void _scheduleAllTimers() {
     for (var schedule in schedules) {
@@ -34,8 +46,13 @@ class _ScheduleAppState extends State<ScheduleApp> {
 
   void _scheduleRelayAction(Map<String, dynamic> schedule) {
     DateTime now = DateTime.now();
-    DateTime scheduledTime = DateTime(now.year, now.month, now.day,
-        schedule['time'].hour, schedule['time'].minute);
+    DateTime scheduledTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      schedule['time'].hour,
+      schedule['time'].minute,
+    );
 
     if (scheduledTime.isBefore(now)) {
       scheduledTime = scheduledTime.add(const Duration(days: 1));
@@ -46,9 +63,14 @@ class _ScheduleAppState extends State<ScheduleApp> {
     Timer timer = Timer(timeUntilActivation, () {
       _toggleRelay('Relay${schedule['relay']}', schedule['action']);
 
-      setState(() {
-        schedule['enabled'] = false;
-      });
+      if (schedule['repeatDaily'] == true) {
+        schedule['enabled'] = true; // Reset enabled
+        _scheduleRelayAction(schedule); // Schedule for the next day
+      } else {
+        setState(() {
+          schedule['enabled'] = false;
+        });
+      }
     });
 
     scheduledTimers.add(timer);
@@ -81,6 +103,7 @@ class _ScheduleAppState extends State<ScheduleApp> {
     int? selectedRelay = schedule?['relay'];
     TimeOfDay? selectedTime = schedule?['time'];
     bool? selectedAction = schedule?['action'];
+    bool repeatDaily = schedule?['repeatDaily'] ?? false; // Mặc định false
     bool isEditing = schedule != null;
 
     await showDialog(
@@ -88,10 +111,10 @@ class _ScheduleAppState extends State<ScheduleApp> {
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
+            // setDialogState được cung cấp bởi StatefulBuilder
             return AlertDialog(
               title: Text(isEditing ? "Edit Schedule" : "Add Schedule"),
-              content: Container(
-                width: double.maxFinite,
+              content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -185,6 +208,17 @@ class _ScheduleAppState extends State<ScheduleApp> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 16),
+                    // Repeat Daily Option
+                    CheckboxListTile(
+                      title: const Text("Repeat Daily"),
+                      value: repeatDaily,
+                      onChanged: (value) {
+                        setDialogState(() {
+                          repeatDaily = value!;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -203,7 +237,8 @@ class _ScheduleAppState extends State<ScheduleApp> {
                               'relay': selectedRelay,
                               'time': selectedTime,
                               'action': selectedAction,
-                              'enabled': true
+                              'enabled': true,
+                              'repeatDaily': repeatDaily,
                             };
 
                             if (isEditing && index != null) {

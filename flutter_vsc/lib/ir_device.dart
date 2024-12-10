@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class IRDeviceUI extends StatefulWidget {
+  const IRDeviceUI({super.key});
+
   @override
   _IRDeviceUIState createState() => _IRDeviceUIState();
 }
@@ -48,6 +50,10 @@ class _IRDeviceUIState extends State<IRDeviceUI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("IR Device"),
+        backgroundColor: const Color.fromARGB(253, 255, 248, 248),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
