@@ -30,7 +30,7 @@ class MainTaskboard extends StatelessWidget {
           color: isDayTime
               ? const Color.fromARGB(255, 172, 238, 255)
               : const Color.fromARGB(255, 190, 200, 204),
-          child: ClockWidget(),
+          child: const ClockWidget(),
         ),
         Expanded(
           child: Center(

@@ -17,24 +17,12 @@ class _ScheduleAppState extends State<ScheduleApp> {
   final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   late List<Map<String, dynamic>> schedules;
   List<Timer?> scheduledTimers = [];
-  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  //     FlutterLocalNotificationsPlugin();
-
   @override
   void initState() {
     super.initState();
-    // _initializeNotifications();
     schedules = widget.schedules;
     _scheduleAllTimers();
   }
-
-  // void _initializeNotifications() {
-  //   const AndroidInitializationSettings initializationSettingsAndroid =
-  //       AndroidInitializationSettings('@mipmap/ic_launcher');
-  //   final InitializationSettings initializationSettings =
-  //       InitializationSettings(android: initializationSettingsAndroid);
-  //   flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  // }
 
   void _scheduleAllTimers() {
     for (var schedule in schedules) {

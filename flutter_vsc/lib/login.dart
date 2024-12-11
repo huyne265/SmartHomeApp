@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // // Vào thẳng dashboard
+  // Vào thẳng dashboard
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     });
   }
-  // // Vào thẳng dashboard
+  // Vào thẳng dashboard
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: <String>['email'],
