@@ -54,7 +54,7 @@ class DeviceControllerScreen extends StatelessWidget {
         icon: Icons.light,
         backgroundColor: Colors.yellow.shade100,
         onTap: () {
-          // Thêm navigation tới màn hình điều khiển đèn
+          //Device3
         },
       ),
       Device(
@@ -62,7 +62,7 @@ class DeviceControllerScreen extends StatelessWidget {
         icon: Icons.device_thermostat,
         backgroundColor: Colors.cyan.shade100,
         onTap: () {
-          // Thêm navigation tới màn hình điều khiển điều hòa
+          // Device 4
         },
       ),
     ];

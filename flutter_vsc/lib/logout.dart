@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 
 import 'main.dart';
 
@@ -28,7 +28,7 @@ class LogoutTab extends StatelessWidget {
   Future<void> handleSignOut(BuildContext context) async {
     // Đăng xuất khỏi Firebase và Google
     await FirebaseAuth.instance.signOut();
-    await GoogleSignIn().signOut();
+    // await GoogleSignIn().signOut();
 
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const MyApp()),

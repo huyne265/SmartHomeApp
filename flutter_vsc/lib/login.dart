@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'dashboard.dart';
 import 'register.dart';
 
@@ -19,26 +19,26 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   // Vào thẳng dashboard
-  @override
-  void initState() {
-    super.initState();
-    _navigateToDashBoard();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _navigateToDashBoard();
+  // }
 
-  void _navigateToDashBoard() {
-    Future.delayed(Duration.zero, () {
-      Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(builder: (context) => const Dashboard()),
-      );
-    });
-  }
+  // void _navigateToDashBoard() {
+  //   Future.delayed(Duration.zero, () {
+  //     Navigator.pushReplacement(
+  //       // ignore: use_build_context_synchronously
+  //       context,
+  //       MaterialPageRoute(builder: (context) => const Dashboard()),
+  //     );
+  //   });
+  // }
   // Vào thẳng dashboard
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: <String>['email'],
-  );
+  // final GoogleSignIn _googleSignIn = GoogleSignIn(
+  //   scopes: <String>['email'],
+  // );
 
   Future<void> _handleEmailSignIn() async {
     try {
@@ -61,28 +61,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleGoogleSignIn() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Sign-in cancelled')));
-        return;
-      }
+      // final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      // if (googleUser == null) {
+      //   ScaffoldMessenger.of(context)
+      //       .showSnackBar(const SnackBar(content: Text('Sign-in cancelled')));
+      //   return;
+      // }
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      // final GoogleSignInAuthentication googleAuth =
+      //     await googleUser.authentication;
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+      // final AuthCredential credential = GoogleAuthProvider.credential(
+      //   accessToken: googleAuth.accessToken,
+      //   idToken: googleAuth.idToken,
+      // );
 
-      final UserCredential userCredential =
-          await _firebaseAuth.signInWithCredential(credential);
+      // final UserCredential userCredential =
+      //     await _firebaseAuth.signInWithCredential(credential);
 
-      if (userCredential.user != null) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const Dashboard()));
-      }
+      // if (userCredential.user != null) {
+      //   Navigator.pushReplacement(context,
+      //       MaterialPageRoute(builder: (context) => const Dashboard()));
+      // }
     } catch (error) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Sign-in failed: $error')));

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import 'button.dart';
@@ -15,7 +15,7 @@ import 'relay_schedule.dart';
 class SchedulePersistence {
   static Future<void> saveSchedules(
       List<Map<String, dynamic>> schedules) async {
-    final prefs = await SharedPreferences.getInstance();
+    // final prefs = await SharedPreferences.getInstance();
     final schedulesJson = schedules
         .map((schedule) => {
               'relay': schedule['relay'],
@@ -27,26 +27,26 @@ class SchedulePersistence {
             })
         .toList();
 
-    await prefs.setString('schedules', json.encode(schedulesJson));
+    // await prefs.setString('schedules', json.encode(schedulesJson));
   }
 
   static Future<List<Map<String, dynamic>>> loadSchedules() async {
-    final prefs = await SharedPreferences.getInstance();
-    final schedulesString = prefs.getString('schedules');
+    // final prefs = await SharedPreferences.getInstance();
+    // final schedulesString = prefs.getString('schedules');
 
-    if (schedulesString != null) {
-      final List<dynamic> schedulesJson = json.decode(schedulesString);
-      return schedulesJson
-          .map((scheduleJson) => {
-                'relay': scheduleJson['relay'],
-                'time': TimeOfDay.fromDateTime(
-                    DateTime.parse(scheduleJson['time'])),
-                'action': scheduleJson['action'],
-                'enabled': scheduleJson['enabled'],
-                'repeatDaily': scheduleJson['repeatDaily']
-              })
-          .toList();
-    }
+    // if (schedulesString != null) {
+    //   final List<dynamic> schedulesJson = json.decode(schedulesString);
+    //   return schedulesJson
+    //       .map((scheduleJson) => {
+    //             'relay': scheduleJson['relay'],
+    //             'time': TimeOfDay.fromDateTime(
+    //                 DateTime.parse(scheduleJson['time'])),
+    //             'action': scheduleJson['action'],
+    //             'enabled': scheduleJson['enabled'],
+    //             'repeatDaily': scheduleJson['repeatDaily']
+    //           })
+    //       .toList();
+    // }
 
     return [];
   }
@@ -62,7 +62,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  // final GoogleSignIn googleSignIn = GoogleSignIn();
 
   final databaseReference = FirebaseDatabase.instance.ref();
 
