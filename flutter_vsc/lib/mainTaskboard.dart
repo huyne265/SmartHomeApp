@@ -1,9 +1,11 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'alert.dart';
 import 'circleProgress.dart';
 
 import 'clock.dart';
 
-class MainTaskboard extends StatelessWidget {
+class MainTaskboard extends StatefulWidget {
   final bool isLoading;
   final double tempValue;
   final double humidityValue;
@@ -20,6 +22,20 @@ class MainTaskboard extends StatelessWidget {
   });
 
   @override
+  _MainTaskboardState createState() => _MainTaskboardState();
+}
+
+class _MainTaskboardState extends State<MainTaskboard> {
+  final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
+  final FirebaseAlertService _firebaseAlertService = FirebaseAlertService();
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseAlertService.listenForFireValue(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool isDayTime = DateTime.now().hour >= 6 && DateTime.now().hour <= 18;
     return Column(
@@ -34,7 +50,7 @@ class MainTaskboard extends StatelessWidget {
         ),
         Expanded(
           child: Center(
-            child: isLoading
+            child: widget.isLoading
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -44,7 +60,7 @@ class MainTaskboard extends StatelessWidget {
                         children: <Widget>[
                           CustomPaint(
                             foregroundPainter:
-                                CircleProgress(tempValue, "temp"),
+                                CircleProgress(widget.tempValue, "temp"),
                             child: Container(
                               width: 150,
                               height: 150,
@@ -54,7 +70,7 @@ class MainTaskboard extends StatelessWidget {
                                   children: <Widget>[
                                     const Text('Temperature'),
                                     Text(
-                                      '${tempValue.toStringAsFixed(2)}',
+                                      '${widget.tempValue.toStringAsFixed(2)}',
                                       style: const TextStyle(
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold),
@@ -72,7 +88,7 @@ class MainTaskboard extends StatelessWidget {
                           ),
                           CustomPaint(
                             foregroundPainter: CircleProgress(
-                                airLevelValue, "air",
+                                widget.airLevelValue, "air",
                                 maxValue: 1000),
                             child: Container(
                               width: 150,
@@ -83,7 +99,7 @@ class MainTaskboard extends StatelessWidget {
                                   children: <Widget>[
                                     const Text('Air Level'),
                                     Text(
-                                      '${airLevelValue.toStringAsFixed(2)}',
+                                      '${widget.airLevelValue.toStringAsFixed(2)}',
                                       style: const TextStyle(
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold),
@@ -107,7 +123,7 @@ class MainTaskboard extends StatelessWidget {
                         children: <Widget>[
                           CustomPaint(
                             foregroundPainter: CircleProgress(
-                                humidityValue, "humid",
+                                widget.humidityValue, "humid",
                                 maxValue: 200),
                             child: Container(
                               width: 150,
@@ -118,7 +134,7 @@ class MainTaskboard extends StatelessWidget {
                                   children: <Widget>[
                                     const Text('Humidity'),
                                     Text(
-                                      '${humidityValue.toInt()}',
+                                      '${widget.humidityValue.toInt()}',
                                       style: const TextStyle(
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold),
@@ -136,7 +152,7 @@ class MainTaskboard extends StatelessWidget {
                           ),
                           CustomPaint(
                             foregroundPainter: CircleProgress(
-                                lightLevelValue, "light",
+                                widget.lightLevelValue, "light",
                                 maxValue: 5000),
                             child: Container(
                               width: 150,
@@ -147,7 +163,7 @@ class MainTaskboard extends StatelessWidget {
                                   children: <Widget>[
                                     const Text('Light Level'),
                                     Text(
-                                      '${lightLevelValue.toStringAsFixed(2)}',
+                                      '${widget.lightLevelValue.toStringAsFixed(2)}',
                                       style: const TextStyle(
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold),

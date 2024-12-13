@@ -25,11 +25,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-// {
-//   "rules": {
-//     ".read": "now < 1736355600000",  // 2025-1-9
-//     ".write": "now < 1736355600000",  // 2025-1-9
-//   }
-// }

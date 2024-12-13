@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'alert.dart';
+
 class RelayControlPage extends StatefulWidget {
   const RelayControlPage({super.key});
 
@@ -10,6 +12,7 @@ class RelayControlPage extends StatefulWidget {
 
 class _RelayControlPageState extends State<RelayControlPage> {
   final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
+  final FirebaseAlertService _firebaseAlertService = FirebaseAlertService();
 
   bool relay1 = false;
   bool relay2 = false;
@@ -21,7 +24,7 @@ class _RelayControlPageState extends State<RelayControlPage> {
   @override
   void initState() {
     super.initState();
-
+    _firebaseAlertService.listenForFireValue(context);
     databaseReference.child('Home/homeLightlevel').onValue.listen((event) {
       final data = event.snapshot.value;
       if (data != null) {

@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 import 'button.dart';
 import 'device.dart';
@@ -15,7 +14,6 @@ import 'relay_schedule.dart';
 class SchedulePersistence {
   static Future<void> saveSchedules(
       List<Map<String, dynamic>> schedules) async {
-    // final prefs = await SharedPreferences.getInstance();
     final schedulesJson = schedules
         .map((schedule) => {
               'relay': schedule['relay'],
@@ -26,29 +24,6 @@ class SchedulePersistence {
               'repeatDaily': schedule['repeatDaily']
             })
         .toList();
-
-    // await prefs.setString('schedules', json.encode(schedulesJson));
-  }
-
-  static Future<List<Map<String, dynamic>>> loadSchedules() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // final schedulesString = prefs.getString('schedules');
-
-    // if (schedulesString != null) {
-    //   final List<dynamic> schedulesJson = json.decode(schedulesString);
-    //   return schedulesJson
-    //       .map((scheduleJson) => {
-    //             'relay': scheduleJson['relay'],
-    //             'time': TimeOfDay.fromDateTime(
-    //                 DateTime.parse(scheduleJson['time'])),
-    //             'action': scheduleJson['action'],
-    //             'enabled': scheduleJson['enabled'],
-    //             'repeatDaily': scheduleJson['repeatDaily']
-    //           })
-    //       .toList();
-    // }
-
-    return [];
   }
 }
 
@@ -73,8 +48,6 @@ class _DashboardState extends State<Dashboard>
   late Animation<double> lightlevelAnimation =
       const AlwaysStoppedAnimation(0.0);
 
-  bool isDarkMode = false;
-
   List<Map<String, dynamic>> schedules = [];
 
   @override
@@ -92,10 +65,14 @@ class _DashboardState extends State<Dashboard>
 
       if (snapshot.value != null) {
         final data = snapshot.value as Map<dynamic, dynamic>;
-        double temp = data['homeTemperature'] ?? 0.0;
-        double humidity = data['homeHumidity'] ?? 0.0;
-        double airlevel = data['homeAirlevel'] ?? 0.0;
-        double lightlevel = data['homeLightlevel'] ?? 0.0;
+        double temp =
+            double.tryParse(data['homeTemperature'].toString()) ?? 0.0;
+        double humidity =
+            double.tryParse(data['homeHumidity'].toString()) ?? 0.0;
+        double airlevel =
+            double.tryParse(data['homeAirlevel'].toString()) ?? 0.0;
+        double lightlevel =
+            double.tryParse(data['homeLightlevel'].toString()) ?? 0.0;
 
         setState(() {
           isLoading = true;
@@ -145,13 +122,23 @@ class _DashboardState extends State<Dashboard>
 
       if (snapshot.value != null) {
         final data = snapshot.value as Map<dynamic, dynamic>;
-        double temp = data['homeTemperature'] ?? 0.0;
-        double humidity = data['homeHumidity'] ?? 0.0;
-        double airlevel = data['homeAirlevel'] ?? 0.0;
-        double lightlevel = data['homeLightlevel'] ?? 0.0;
+
+        double temp =
+            double.tryParse(data['homeTemperature']?.toString() ?? '') ?? 0.0;
+        double humidity =
+            double.tryParse(data['homeHumidity']?.toString() ?? '') ?? 0.0;
+        double airlevel =
+            double.tryParse(data['homeAirlevel']?.toString() ?? '') ?? 0.0;
+        double lightlevel =
+            double.tryParse(data['homeLightlevel']?.toString() ?? '') ?? 0.0;
 
         setState(() {
+          isLoading = true;
           _dashboardUpdate(temp, humidity, airlevel, lightlevel);
+        });
+
+        Future.delayed(const Duration(seconds: 3), () {
+          _startRealtimeUpdates();
         });
       }
     });
@@ -190,15 +177,6 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: isDarkMode
-          ? ThemeData.dark().copyWith(
-              primaryColor: Colors.black,
-              scaffoldBackgroundColor: Colors.black,
-            )
-          : ThemeData.light().copyWith(
-              primaryColor: Colors.white,
-              scaffoldBackgroundColor: Colors.white,
-            ),
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
         length: 5,

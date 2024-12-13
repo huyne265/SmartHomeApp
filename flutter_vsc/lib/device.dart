@@ -1,5 +1,7 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'alert.dart';
 import 'ir_device.dart';
 import 'fan.dart';
 
@@ -21,8 +23,21 @@ class Device {
   });
 }
 
-class DeviceControllerScreen extends StatelessWidget {
+class DeviceControllerScreen extends StatefulWidget {
   const DeviceControllerScreen({Key? key}) : super(key: key);
+  @override
+  _DeviceControllerScreen createState() => _DeviceControllerScreen();
+}
+
+class _DeviceControllerScreen extends State<DeviceControllerScreen>
+    with SingleTickerProviderStateMixin {
+  final FirebaseAlertService _firebaseAlertService = FirebaseAlertService();
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseAlertService.listenForFireValue(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +66,19 @@ class DeviceControllerScreen extends StatelessWidget {
       ),
       Device(
         name: "Device 3",
-        icon: Icons.light,
-        backgroundColor: Colors.yellow.shade100,
+        icon: Icons.fireplace_outlined,
+        backgroundColor: Colors.red.shade100,
         onTap: () {
-          //Device3
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => DangerAlert()),
+          // );
         },
       ),
       Device(
         name: "Device 4",
         icon: Icons.device_thermostat,
-        backgroundColor: Colors.cyan.shade100,
+        backgroundColor: Colors.yellow.shade100,
         onTap: () {
           // Device 4
         },

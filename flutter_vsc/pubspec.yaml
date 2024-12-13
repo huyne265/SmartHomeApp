@@ -44,6 +44,10 @@ dependencies:
   provider: ^6.1.2
   intl: ^0.20.1
   workmanager: ^0.5.2
+  elegant_notification: ^2.4.0
+  firebase_messaging: ^15.1.6
+  flutter_local_notifications: ^18.0.1
+  vibration: ^2.0.1
   # shared_preferences: ^2.3.3
 
 dev_dependencies:

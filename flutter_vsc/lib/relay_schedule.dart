@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter/cupertino.dart';
 import 'dart:async';
+
+import 'alert.dart';
 
 class ScheduleApp extends StatefulWidget {
   final List<Map<String, dynamic>> schedules;
@@ -14,14 +14,33 @@ class ScheduleApp extends StatefulWidget {
 }
 
 class _ScheduleAppState extends State<ScheduleApp> {
+  final FirebaseAlertService _firebaseAlertService = FirebaseAlertService();
   final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   late List<Map<String, dynamic>> schedules;
   List<Timer?> scheduledTimers = [];
+
   @override
   void initState() {
     super.initState();
+    _firebaseAlertService.listenForFireValue(context);
+
     schedules = widget.schedules;
+    _syncSchedulesToFirebase();
     _scheduleAllTimers();
+  }
+
+  void _syncSchedulesToFirebase() {
+    List<Map<String, dynamic>> firebaseSchedules = schedules.map((schedule) {
+      return {
+        'relay': schedule['relay'],
+        'time': '${schedule['time'].hour}:${schedule['time'].minute}',
+        'action': schedule['action'],
+        'enabled': schedule['enabled'],
+        'repeatDaily': schedule['repeatDaily'] ?? false
+      };
+    }).toList();
+
+    databaseReference.child('Schedules').set(firebaseSchedules);
   }
 
   void _scheduleAllTimers() {
@@ -50,7 +69,6 @@ class _ScheduleAppState extends State<ScheduleApp> {
 
     Timer timer = Timer(timeUntilActivation, () {
       _toggleRelay('Relay${schedule['relay']}', schedule['action']);
-
       if (schedule['repeatDaily'] == true) {
         schedule['enabled'] = true; // Reset enabled
         _scheduleRelayAction(schedule); // Schedule for the next day
@@ -65,17 +83,10 @@ class _ScheduleAppState extends State<ScheduleApp> {
   }
 
   void _toggleRelay(String relayKey, bool status) {
+    // Cập nhật trạng thái relay trên Firebase
     databaseReference.child('Relay').update({
       relayKey: status ? "1" : "0",
     });
-  }
-
-  @override
-  void dispose() {
-    for (var timer in scheduledTimers) {
-      timer?.cancel();
-    }
-    super.dispose();
   }
 
   void _editSchedule(int index) {
@@ -83,7 +94,7 @@ class _ScheduleAppState extends State<ScheduleApp> {
     _showScheduleDialog(context, schedule: schedule, index: index);
   }
 
-  Future<void> _showScheduleDialog(
+  void _showScheduleDialog(
     BuildContext context, {
     Map<String, dynamic>? schedule,
     int? index,
@@ -91,9 +102,8 @@ class _ScheduleAppState extends State<ScheduleApp> {
     int? selectedRelay = schedule?['relay'];
     TimeOfDay? selectedTime = schedule?['time'];
     bool? selectedAction = schedule?['action'];
-    bool repeatDaily = schedule?['repeatDaily'] ?? false; // Mặc định false
+    bool repeatDaily = schedule?['repeatDaily'] ?? false;
     bool isEditing = schedule != null;
-
     await showDialog(
       context: context,
       builder: (context) {
@@ -212,10 +222,6 @@ class _ScheduleAppState extends State<ScheduleApp> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Cancel"),
-                ),
-                TextButton(
                   onPressed: selectedRelay != null &&
                           selectedTime != null &&
                           selectedAction != null
@@ -230,19 +236,16 @@ class _ScheduleAppState extends State<ScheduleApp> {
                             };
 
                             if (isEditing && index != null) {
-                              // Cancel existing timer
                               scheduledTimers[index]?.cancel();
-
-                              // Update existing schedule
                               schedules[index] = updatedSchedule;
-
-                              // Reschedule the action
                               _scheduleRelayAction(updatedSchedule);
                             } else {
-                              // Add new schedule
                               schedules.add(updatedSchedule);
                               _scheduleRelayAction(updatedSchedule);
                             }
+
+                            // Đồng bộ lịch trình lên Firebase mỗi khi thêm/sửa
+                            _syncSchedulesToFirebase();
                           });
                           Navigator.of(context).pop();
                         }
@@ -255,6 +258,14 @@ class _ScheduleAppState extends State<ScheduleApp> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    for (var timer in scheduledTimers) {
+      timer?.cancel();
+    }
+    super.dispose();
   }
 
   @override
@@ -289,6 +300,8 @@ class _ScheduleAppState extends State<ScheduleApp> {
                       scheduledTimers[index]?.cancel();
                       scheduledTimers.removeAt(index);
                       schedules.removeAt(index);
+
+                      _syncSchedulesToFirebase();
                     });
                   },
                   child: Card(
@@ -319,6 +332,8 @@ class _ScheduleAppState extends State<ScheduleApp> {
                             } else {
                               scheduledTimers[index]?.cancel();
                             }
+
+                            _syncSchedulesToFirebase();
                           });
                         },
                       ),
