@@ -1,9 +1,9 @@
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'alert.dart';
 import 'ir_device.dart';
 import 'fan.dart';
+import 'subSched.dart';
 
 class Device {
   final String name;
@@ -37,6 +37,7 @@ class _DeviceControllerScreen extends State<DeviceControllerScreen>
   void initState() {
     super.initState();
     _firebaseAlertService.listenForFireValue(context);
+    RelayScheduleService().loadSchedulesFromFirebase();
   }
 
   @override

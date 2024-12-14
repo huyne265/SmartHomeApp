@@ -5,13 +5,11 @@ import 'login.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Đăng ký tài khoản mới
   Future<UserCredential?> registerWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
-      // Kiểm tra tính hợp lệ của email và mật khẩu
       if (!_validateEmail(email)) {
         throw 'Email không hợp lệ';
       }
@@ -20,7 +18,6 @@ class AuthService {
         throw 'Mật khẩu phải có ít nhất 6 ký tự';
       }
 
-      // Thực hiện đăng ký
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -29,7 +26,6 @@ class AuthService {
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      // Xử lý các lỗi cụ thể từ Firebase
       _handleAuthError(e);
       return null;
     } catch (e) {
@@ -96,10 +92,9 @@ class _RegistrationScreenState extends State<RegisterScreen> {
       );
 
       if (result != null) {
-        // Đăng ký thành công, chuyển đến màn hình khác
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-              builder: (_) => LoginScreen(
+              builder: (_) => const LoginScreen(
                     title: 'ABCDEF',
                   )),
         );
@@ -115,47 +110,103 @@ class _RegistrationScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register Account'),
+        title: const Text(
+          'Register Account',
+          style: TextStyle(
+            color: Color(0xFFc1e8ff),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: const Color(0xFF021024),
+        iconTheme: const IconThemeData(
+          color: Color(0xFFc1e8ff),
+        ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            if (_errorMessage != null)
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text(
-                  _errorMessage!,
-                  style: TextStyle(color: Colors.red),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFc1e8ff),
+              Color(0xFF7da0ca),
+              Color(0xFF5483b3),
+              Color(0xFF2b669c),
+              Color(0xFF052659),
+              Color(0xFF021024),
+            ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: const TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color(0xFFc1e8ff),
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color(0xFFc1e8ff),
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
                 ),
+                keyboardType: TextInputType.emailAddress,
               ),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _register,
-              child: Text('Resgister'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  labelStyle: const TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color(0xFFc1e8ff),
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color(0xFFc1e8ff),
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                obscureText: true,
               ),
-            ),
-          ],
+              if (_errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text(
+                    _errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _register,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: const Color(0xFF7da0ca),
+                ),
+                child: const Text('Resgister',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     );

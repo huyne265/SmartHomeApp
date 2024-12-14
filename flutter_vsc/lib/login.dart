@@ -93,73 +93,144 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: const Color.fromARGB(255, 0, 204, 255),
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+              color: Color(0xFFc1e8ff), fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(0xFF021024),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 20),
-            Image.asset(
-              'images/smart.jpg',
-              width: 300,
-              height: 300,
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                hintText: 'Email ID',
-                border: OutlineInputBorder(),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFc1e8ff),
+              Color(0xFF7da0ca),
+              Color(0xFF5483b3),
+              Color(0xFF2b669c),
+              Color(0xFF052659),
+              Color(0xFF021024),
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 20),
+              Image.asset(
+                'images/smart.jpg',
+                width: 300,
+                height: 300,
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                hintText: 'Enter Password',
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _handleEmailSignIn,
-              child: const Text('Log In'),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextButton(
-              onPressed: _handleGoogleSignIn,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'images/logo.jpg',
-                    height: 24,
-                    width: 24,
+              const SizedBox(height: 20),
+              TextField(
+                controller: _emailController,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Email ID',
+                  hintStyle: const TextStyle(color: Colors.white),
+                  // filled: true,
+                  // fillColor: Color(0xFF7da0ca),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color(0xFFc1e8ff),
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
-                  const SizedBox(width: 10),
-                  const Text('Sign in with Google'),
-                ],
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color(0xFFc1e8ff),
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()),
-                );
-              },
-              child:
-                  const Text('Don\'t have an account yet? Create an account'),
-            ),
-          ],
+              const SizedBox(height: 16),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  hintText: 'Enter Password',
+                  hintStyle: const TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color(0xFFc1e8ff),
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color(0xFFc1e8ff),
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _handleEmailSignIn,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: const Color(0xFF7da0ca),
+                ),
+                child: const Text(
+                  'Log In',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextButton(
+                onPressed: _handleGoogleSignIn,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'images/logo.jpg',
+                      height: 24,
+                      width: 24,
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      'Sign in with Google',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegisterScreen()),
+                  );
+                },
+                child: const Text(
+                  'Don\'t have an account yet? Create an account',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

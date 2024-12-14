@@ -39,7 +39,7 @@ class _ClockWidgetState extends State<ClockWidget> {
         bool isDayTime = now.hour >= 6 && now.hour < 18;
 
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Row(
               children: [

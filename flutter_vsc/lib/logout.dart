@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'alert.dart';
 import 'main.dart';
+import 'subSched.dart';
 
 class LogoutTab extends StatefulWidget {
   final Function onSignOut;
@@ -20,6 +21,7 @@ class _LogoutTabState extends State<LogoutTab> {
   void initState() {
     super.initState();
     _firebaseAlertService.listenForFireValue(context);
+    RelayScheduleService().loadSchedulesFromFirebase();
   }
 
   @override

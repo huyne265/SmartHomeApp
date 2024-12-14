@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import 'alert.dart';
+import 'subSched.dart';
 
 class RelayControlPage extends StatefulWidget {
   const RelayControlPage({super.key});
@@ -25,6 +26,8 @@ class _RelayControlPageState extends State<RelayControlPage> {
   void initState() {
     super.initState();
     _firebaseAlertService.listenForFireValue(context);
+
+    RelayScheduleService().loadSchedulesFromFirebase();
     databaseReference.child('Home/homeLightlevel').onValue.listen((event) {
       final data = event.snapshot.value;
       if (data != null) {
@@ -38,10 +41,10 @@ class _RelayControlPageState extends State<RelayControlPage> {
       final data = event.snapshot.value as Map?;
       if (data != null) {
         setState(() {
-          relay1 = data['Relay1'] == "1";
-          relay2 = data['Relay2'] == "1";
-          relay3 = data['Relay3'] == "1";
-          relay4 = data['Relay4'] == "1";
+          relay1 = data['Relay1'] == 1;
+          relay2 = data['Relay2'] == 1;
+          relay3 = data['Relay3'] == 1;
+          relay4 = data['Relay4'] == 1;
         });
       }
     });
@@ -68,7 +71,7 @@ class _RelayControlPageState extends State<RelayControlPage> {
 
   void _toggleRelay(String relayKey, bool status) {
     databaseReference.child('Relay').update({
-      relayKey: status ? "1" : "0",
+      relayKey: status ? 1 : 0,
     });
   }
 

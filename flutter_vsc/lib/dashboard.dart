@@ -11,22 +11,6 @@ import 'mainTaskboard.dart';
 import 'logout.dart';
 import 'relay_schedule.dart';
 
-class SchedulePersistence {
-  static Future<void> saveSchedules(
-      List<Map<String, dynamic>> schedules) async {
-    final schedulesJson = schedules
-        .map((schedule) => {
-              'relay': schedule['relay'],
-              'time':
-                  schedule['time'].toString(), // Chuyển TimeOfDay thành string
-              'action': schedule['action'],
-              'enabled': schedule['enabled'],
-              'repeatDaily': schedule['repeatDaily']
-            })
-        .toList();
-  }
-}
-
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -182,8 +166,12 @@ class _DashboardState extends State<Dashboard>
         length: 5,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 0, 204, 255),
-            title: const Text('Smart Room App'),
+            backgroundColor: const Color(0xFF021024),
+            title: const Text(
+              'Smart Room App',
+              style: const TextStyle(
+                  color: Color(0xFFc1e8ff), fontWeight: FontWeight.bold),
+            ),
           ),
           body: Stack(
             children: [
@@ -215,23 +203,26 @@ class _DashboardState extends State<Dashboard>
               ),
             ],
           ),
-          bottomNavigationBar: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.home), text: "Home"),
-              Tab(
-                  icon: Icon(Icons.radio_button_checked),
-                  text: "Button Taskboard"),
-              Tab(
-                icon: Icon(Icons.wb_iridescent_rounded),
-                text: "IR Device",
-              ),
-              Tab(icon: Icon(Icons.schedule), text: "Schedule"),
-              Tab(icon: Icon(Icons.logout), text: "Log out"),
-            ],
-            labelColor: Color.fromARGB(255, 93, 223, 255),
-            unselectedLabelColor: Colors.black,
-            indicatorColor: Colors.blue,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold),
+          bottomNavigationBar: const Material(
+            color: Color(0xFF021024),
+            child: TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.home), text: "Home"),
+                Tab(
+                    icon: Icon(Icons.radio_button_checked),
+                    text: "Button Taskboard"),
+                Tab(
+                  icon: Icon(Icons.wb_iridescent_rounded),
+                  text: "IR Device",
+                ),
+                Tab(icon: Icon(Icons.schedule), text: "Schedule"),
+                Tab(icon: Icon(Icons.logout), text: "Log out"),
+              ],
+              labelColor: Color(0xFFc1e8ff),
+              unselectedLabelColor: Color(0xFF7da0ca),
+              indicatorColor: Color(0xFFc1e8ff),
+              labelStyle: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),

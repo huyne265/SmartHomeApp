@@ -125,9 +125,11 @@ class _ScheduleAppState extends State<ScheduleApp> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: DropdownButtonFormField<int>(
                         decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: "Select Relay",
-                        ),
+                            border: InputBorder.none,
+                            labelText: "Select Relay",
+                            labelStyle: TextStyle(
+                              color: Color(0xFF7da0ca),
+                            )),
                         value: selectedRelay,
                         items: [1, 2, 3, 4]
                             .map((relay) => DropdownMenuItem(
@@ -161,6 +163,23 @@ class _ScheduleAppState extends State<ScheduleApp> {
                           TimeOfDay? time = await showTimePicker(
                             context: context,
                             initialTime: selectedTime ?? TimeOfDay.now(),
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: ColorScheme.light(
+                                    primary: Colors.blue,
+                                    onPrimary: Colors.white,
+                                    onSurface: Colors.blue,
+                                  ),
+                                  textButtonTheme: TextButtonThemeData(
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
                           );
                           if (time != null) {
                             setDialogState(() {
@@ -184,10 +203,14 @@ class _ScheduleAppState extends State<ScheduleApp> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: selectedAction == true
                                 ? Colors.green
-                                : Colors.grey,
+                                : Color(0xFFc1e8ff),
                           ),
                           child: const Text(
                             "ON",
+                            style: TextStyle(
+                              color: Color(0xFF021024),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -200,9 +223,15 @@ class _ScheduleAppState extends State<ScheduleApp> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: selectedAction == false
                                 ? Colors.red
-                                : Colors.grey,
+                                : Color(0xFFc1e8ff),
                           ),
-                          child: const Text("OFF"),
+                          child: const Text(
+                            "OFF",
+                            style: TextStyle(
+                              color: Color(0xFF021024),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -211,6 +240,7 @@ class _ScheduleAppState extends State<ScheduleApp> {
                     CheckboxListTile(
                       title: const Text("Repeat Daily"),
                       value: repeatDaily,
+                      activeColor: Color(0xFF5483b3),
                       onChanged: (value) {
                         setDialogState(() {
                           repeatDaily = value!;
@@ -221,6 +251,12 @@ class _ScheduleAppState extends State<ScheduleApp> {
                 ),
               ),
               actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Cancel"),
+                ),
                 TextButton(
                   onPressed: selectedRelay != null &&
                           selectedTime != null &&
@@ -250,7 +286,12 @@ class _ScheduleAppState extends State<ScheduleApp> {
                           Navigator.of(context).pop();
                         }
                       : null,
-                  child: Text(isEditing ? "Update" : "Add"),
+                  child: Text(
+                    isEditing ? "Update" : "Add",
+                    style: TextStyle(
+                      color: Color(0xFF5483b3),
+                    ),
+                  ),
                 ),
               ],
             );
