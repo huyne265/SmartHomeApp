@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'alert.dart';
 import 'circleProgress.dart';
+import 'dart:async';
 
 import 'clock.dart';
 import 'subSched.dart';
@@ -29,13 +30,21 @@ class MainTaskboard extends StatefulWidget {
 class _MainTaskboardState extends State<MainTaskboard> {
   final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   final FirebaseAlertService _firebaseAlertService = FirebaseAlertService();
-
+  bool isDataLoading = true;
   @override
   void initState() {
     super.initState();
     _firebaseAlertService.listenForFireValue(context);
     RelayScheduleService().loadSchedulesFromFirebase();
+    // fetchDataWithDelay();
   }
+
+  // Future<void> fetchDataWithDelay() async {
+  //   await Future.delayed(const Duration(seconds: 1));
+  //   setState(() {
+  //     isDataLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +102,7 @@ class _MainTaskboardState extends State<MainTaskboard> {
                             CustomPaint(
                               foregroundPainter: CircleProgress(
                                   widget.airLevelValue, "air",
-                                  maxValue: 1500),
+                                  maxValue: 2000),
                               child: Container(
                                 width: 150,
                                 height: 150,

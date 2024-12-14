@@ -40,11 +40,15 @@ class _RelayControlPageState extends State<RelayControlPage> {
     databaseReference.child('Relay').onValue.listen((event) {
       final data = event.snapshot.value as Map?;
       if (data != null) {
+        bool newRelay1 = data['Relay1'] == 1;
+        bool newRelay2 = data['Relay2'] == 1;
+        bool newRelay3 = data['Relay3'] == 1;
+        bool newRelay4 = data['Relay4'] == 1;
         setState(() {
-          relay1 = data['Relay1'] == 1;
-          relay2 = data['Relay2'] == 1;
-          relay3 = data['Relay3'] == 1;
-          relay4 = data['Relay4'] == 1;
+          if (relay1 != newRelay1) relay1 = newRelay1;
+          if (relay2 != newRelay2) relay2 = newRelay2;
+          if (relay3 != newRelay3) relay3 = newRelay3;
+          if (relay4 != newRelay4) relay4 = newRelay4;
         });
       }
     });
