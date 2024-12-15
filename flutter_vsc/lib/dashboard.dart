@@ -126,7 +126,9 @@ class _DashboardState extends State<Dashboard>
           isLoading = true;
           _dashboardUpdate(temp, humidity, airlevel, lightlevel);
         });
-        _startRealtimeUpdates();
+        Future.delayed(const Duration(seconds: 3), () {
+          _startRealtimeUpdates();
+        });
       }
     });
   }
