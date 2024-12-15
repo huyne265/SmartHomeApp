@@ -23,7 +23,7 @@ class CircleProgress extends CustomPainter {
       maximumValue = maxValue;
       arcPaint = Paint()
         ..strokeWidth = 16
-        ..color = (value < maxValue * 0.8)
+        ..color = (value < maxValue * 0.9)
             ? const Color.fromARGB(255, 61, 253, 93)
             : (const Color.fromARGB(255, 255, 17, 0))
         ..style = PaintingStyle.stroke
@@ -32,7 +32,7 @@ class CircleProgress extends CustomPainter {
       maximumValue = maxValue;
       arcPaint = Paint()
         ..strokeWidth = 16
-        ..color = (value < maxValue * 0.8)
+        ..color = (value < maxValue * 0.9)
             ? Colors.blueAccent
             : const Color.fromARGB(255, 255, 17, 0)
         ..style = PaintingStyle.stroke
@@ -41,7 +41,7 @@ class CircleProgress extends CustomPainter {
       maximumValue = maxValue;
       arcPaint = Paint()
         ..strokeWidth = 16
-        ..color = (value < maxValue * 0.8)
+        ..color = (value < maxValue * 0.9)
             ? const Color.fromARGB(255, 255, 0, 85)
             : const Color.fromARGB(255, 255, 17, 0)
         ..style = PaintingStyle.stroke
@@ -50,7 +50,7 @@ class CircleProgress extends CustomPainter {
       maximumValue = maxValue;
       arcPaint = Paint()
         ..strokeWidth = 16
-        ..color = (value < maxValue * 0.8)
+        ..color = (value < maxValue * 0.9)
             ? const Color.fromARGB(255, 255, 255, 57)
             : const Color.fromARGB(255, 255, 17, 0)
         ..style = PaintingStyle.stroke

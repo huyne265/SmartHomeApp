@@ -134,27 +134,43 @@ class _RelayControlPageState extends State<RelayControlPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Wrap(
-            spacing: 20,
-            runSpacing: 20,
-            alignment: WrapAlignment.center,
-            children: [
-              _buildRelayCard("Relay 1", relay1, () {
-                _toggleRelay('Relay1', !relay1);
-              }),
-              _buildRelayCard("Relay 2", relay2, () {
-                _toggleRelay('Relay2', !relay2);
-              }),
-              _buildRelayCard("Relay 3", relay3, () {
-                _toggleRelay('Relay3', !relay3);
-              }),
-              _buildRelayCard("Relay 4", relay4, () {
-                _toggleRelay('Relay4', !relay4);
-              }),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFc1e8ff),
+              Color(0xFF7da0ca),
+              Color(0xFF5483b3),
+              Color(0xFF2b669c),
+              Color(0xFF052659),
+              Color(0xFF021024),
             ],
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Wrap(
+              spacing: 20,
+              runSpacing: 20,
+              alignment: WrapAlignment.center,
+              children: [
+                _buildRelayCard("Relay 1", relay1, () {
+                  _toggleRelay('Relay1', !relay1);
+                }),
+                _buildRelayCard("Relay 2", relay2, () {
+                  _toggleRelay('Relay2', !relay2);
+                }),
+                _buildRelayCard("Relay 3", relay3, () {
+                  _toggleRelay('Relay3', !relay3);
+                }),
+                _buildRelayCard("Relay 4", relay4, () {
+                  _toggleRelay('Relay4', !relay4);
+                }),
+              ],
+            ),
           ),
         ),
       ),

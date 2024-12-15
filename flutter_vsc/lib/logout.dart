@@ -26,15 +26,35 @@ class _LogoutTabState extends State<LogoutTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () async {
-          final bool shouldLogout = await _showLogoutPopup(context);
-          if (shouldLogout) {
-            await _handleSignOut(context);
-          }
-        },
-        child: const Text('Log Out'),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFc1e8ff),
+            Color(0xFF7da0ca),
+            Color(0xFF5483b3),
+            Color(0xFF2b669c),
+            Color(0xFF052659),
+            Color(0xFF021024),
+          ],
+        ),
+      ),
+      child: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            final bool shouldLogout = await _showLogoutPopup(context);
+            if (shouldLogout) {
+              await _handleSignOut(context);
+            }
+          },
+          child: const Text(
+            'Log Out',
+            style: TextStyle(
+                color: Color(0xFF021024), fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
     );
   }
@@ -59,16 +79,34 @@ class _LogoutTabState extends State<LogoutTab> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text("Log out"),
+              title: const Text(
+                "Log out",
+                style: TextStyle(
+                  color: Color(0xFF021024),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               content: const Text("Do you want to log out now?"),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text("No"),
+                  child: const Text(
+                    "No",
+                    style: TextStyle(
+                      color: Color(0xFF021024),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: const Text("Yes"),
+                  child: const Text(
+                    "Yes",
+                    style: TextStyle(
+                      color: Color(0xFF021024),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             );

@@ -142,6 +142,13 @@ class _RegistrationScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 20),
+              Image.asset(
+                'images/res2.jpg',
+                width: 300,
+                height: 300,
+              ),
+              const SizedBox(height: 20),
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(

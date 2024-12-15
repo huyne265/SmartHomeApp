@@ -128,13 +128,16 @@ class _ScheduleAppState extends State<ScheduleApp> {
                             border: InputBorder.none,
                             labelText: "Select Relay",
                             labelStyle: TextStyle(
-                              color: Color(0xFF7da0ca),
+                              color: Color(0xFF2b669c),
                             )),
                         value: selectedRelay,
                         items: [1, 2, 3, 4]
                             .map((relay) => DropdownMenuItem(
                                   value: relay,
-                                  child: Text("Relay $relay"),
+                                  child: Text(
+                                    "Relay $relay",
+                                    style: TextStyle(color: Color(0xFF021024)),
+                                  ),
                                 ))
                             .toList(),
                         onChanged: (value) {
@@ -157,6 +160,7 @@ class _ScheduleAppState extends State<ScheduleApp> {
                           selectedTime != null
                               ? "Time: ${selectedTime!.format(context)}"
                               : "Select Time",
+                          style: TextStyle(color: Color(0xFF2b669c)),
                         ),
                         trailing: const Icon(Icons.access_time),
                         onTap: () async {
@@ -166,14 +170,28 @@ class _ScheduleAppState extends State<ScheduleApp> {
                             builder: (context, child) {
                               return Theme(
                                 data: Theme.of(context).copyWith(
-                                  colorScheme: ColorScheme.light(
-                                    primary: Colors.blue,
-                                    onPrimary: Colors.white,
-                                    onSurface: Colors.blue,
+                                  colorScheme: const ColorScheme.light(
+                                    primary: Color(0xFF052659),
+                                    onPrimary: Color(0xFFc1e8ff),
+                                    onSurface: Color(0xFF052659),
+                                  ),
+                                  timePickerTheme: TimePickerThemeData(
+                                    dayPeriodTextColor:
+                                        MaterialStateColor.resolveWith(
+                                            (states) => states.contains(
+                                                    MaterialState.selected)
+                                                ? Color(0xFFc1e8ff)
+                                                : Color(0xFF052659)),
+                                    dayPeriodColor:
+                                        MaterialStateColor.resolveWith(
+                                            (states) => states.contains(
+                                                    MaterialState.selected)
+                                                ? Color(0xFF052659)
+                                                : Color(0xFFc1e8ff)),
                                   ),
                                   textButtonTheme: TextButtonThemeData(
                                     style: TextButton.styleFrom(
-                                      foregroundColor: Colors.blue,
+                                      foregroundColor: Color(0xFF052659),
                                     ),
                                   ),
                                 ),
@@ -202,13 +220,15 @@ class _ScheduleAppState extends State<ScheduleApp> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: selectedAction == true
-                                ? Colors.green
+                                ? Color(0xFF052659)
                                 : Color(0xFFc1e8ff),
                           ),
-                          child: const Text(
+                          child: Text(
                             "ON",
                             style: TextStyle(
-                              color: Color(0xFF021024),
+                              color: selectedAction == true
+                                  ? Color(0xFFc1e8ff)
+                                  : Color(0xFF052659),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -222,13 +242,15 @@ class _ScheduleAppState extends State<ScheduleApp> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: selectedAction == false
-                                ? Colors.red
+                                ? Color(0xFF052659)
                                 : Color(0xFFc1e8ff),
                           ),
-                          child: const Text(
+                          child: Text(
                             "OFF",
                             style: TextStyle(
-                              color: Color(0xFF021024),
+                              color: selectedAction == false
+                                  ? Color(0xFFc1e8ff)
+                                  : Color(0xFF052659),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -236,9 +258,15 @@ class _ScheduleAppState extends State<ScheduleApp> {
                       ],
                     ),
                     const SizedBox(height: 16),
+
                     // Repeat Daily Option
                     CheckboxListTile(
-                      title: const Text("Repeat Daily"),
+                      title: const Text(
+                        "Repeat Daily",
+                        style: TextStyle(
+                          color: Color(0xFF021024),
+                        ),
+                      ),
                       value: repeatDaily,
                       activeColor: Color(0xFF5483b3),
                       onChanged: (value) {
@@ -314,75 +342,103 @@ class _ScheduleAppState extends State<ScheduleApp> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showScheduleDialog(context),
-        backgroundColor: Colors.grey,
+        backgroundColor: Color(0xFFc1e8ff),
         child: const Icon(
           Icons.add_alarm_rounded,
-          color: Colors.black,
+          color: Color(0xFF021024),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: schedules.isEmpty
-          ? const Center(child: Text("No schedules added."))
-          : ListView.builder(
-              itemCount: schedules.length,
-              itemBuilder: (context, index) {
-                final schedule = schedules[index];
-                return Dismissible(
-                  key: Key(schedule.toString()),
-                  background: Container(
-                    color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.only(right: 20),
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (_) {
-                    setState(() {
-                      scheduledTimers[index]?.cancel();
-                      scheduledTimers.removeAt(index);
-                      schedules.removeAt(index);
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFc1e8ff),
+              Color(0xFF7da0ca),
+              Color(0xFF5483b3),
+              Color(0xFF2b669c),
+              Color(0xFF052659),
+              Color(0xFF021024),
+            ],
+          ),
+        ),
+        child: schedules.isEmpty
+            ? const Center(
+                child: Text(
+                "No schedules added.",
+                style: TextStyle(
+                  color: Color(0xFFc1e8ff),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ))
+            : ListView.builder(
+                itemCount: schedules.length,
+                itemBuilder: (context, index) {
+                  final schedule = schedules[index];
+                  return Dismissible(
+                    key: Key(schedule.toString()),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (_) {
+                      setState(() {
+                        scheduledTimers[index]?.cancel();
+                        scheduledTimers.removeAt(index);
+                        schedules.removeAt(index);
 
-                      _syncSchedulesToFirebase();
-                    });
-                  },
-                  child: Card(
-                    margin: const EdgeInsets.all(10),
-                    child: ListTile(
-                      onTap: () => _editSchedule(index),
-                      title: Text(
-                        "Relay ${schedule['relay']} - ${schedule['action'] ? 'ON' : 'OFF'}",
-                        style: TextStyle(
-                          color:
-                              schedule['enabled'] ? Colors.black : Colors.grey,
+                        _syncSchedulesToFirebase();
+                      });
+                    },
+                    child: Card(
+                      margin: const EdgeInsets.all(10),
+                      child: ListTile(
+                        onTap: () => _editSchedule(index),
+                        title: Text(
+                          "Relay ${schedule['relay']} - ${schedule['action'] ? 'ON' : 'OFF'}",
+                          style: TextStyle(
+                            color: schedule['enabled']
+                                ? Color(0xFF021024)
+                                : Colors.grey,
+                            // fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        "Time: ${schedule['time'].format(context)}",
-                        style: TextStyle(
-                          color:
-                              schedule['enabled'] ? Colors.blue : Colors.grey,
+                        subtitle: Text(
+                          "Time: ${schedule['time'].format(context)}",
+                          style: TextStyle(
+                            color: schedule['enabled']
+                                ? Color(0xFF2b669c)
+                                : Colors.grey,
+                          ),
                         ),
-                      ),
-                      trailing: Switch(
-                        value: schedule['enabled'],
-                        onChanged: (value) {
-                          setState(() {
-                            schedule['enabled'] = value;
-                            if (value) {
-                              _scheduleRelayAction(schedule);
-                            } else {
-                              scheduledTimers[index]?.cancel();
-                            }
+                        trailing: Switch(
+                          value: schedule['enabled'],
+                          onChanged: (value) {
+                            setState(() {
+                              schedule['enabled'] = value;
+                              if (value) {
+                                _scheduleRelayAction(schedule);
+                              } else {
+                                scheduledTimers[index]?.cancel();
+                              }
 
-                            _syncSchedulesToFirebase();
-                          });
-                        },
+                              _syncSchedulesToFirebase();
+                            });
+                          },
+                          activeColor: Color(0xFF2b669c),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
+      ),
     );
   }
 }

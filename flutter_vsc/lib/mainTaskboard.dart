@@ -36,15 +36,7 @@ class _MainTaskboardState extends State<MainTaskboard> {
     super.initState();
     _firebaseAlertService.listenForFireValue(context);
     RelayScheduleService().loadSchedulesFromFirebase();
-    // fetchDataWithDelay();
   }
-
-  // Future<void> fetchDataWithDelay() async {
-  //   await Future.delayed(const Duration(seconds: 1));
-  //   setState(() {
-  //     isDataLoading = false;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

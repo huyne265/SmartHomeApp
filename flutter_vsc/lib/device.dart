@@ -89,21 +89,35 @@ class _DeviceControllerScreen extends State<DeviceControllerScreen>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Device Controller',
-            style:
-                TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)),
-        backgroundColor: Colors.white,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Color(0xFF021024))),
+        backgroundColor: Color(0xFFc1e8ff),
         elevation: 0,
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.white,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              // Color(0xFFc1e8ff),
+              Color(0xFF7da0ca),
+              Color(0xFF5483b3),
+              Color(0xFF2b669c),
+              Color(0xFF052659),
+              Color(0xFF021024),
+            ],
+          ),
+        ),
+        // color: Colors.white,
         child: GridView.builder(
           padding: const EdgeInsets.all(16),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            childAspectRatio: 0.8,
+            childAspectRatio: 1,
           ),
           itemCount: devices.length,
           itemBuilder: (context, index) {
@@ -121,15 +135,18 @@ class _DeviceControllerScreen extends State<DeviceControllerScreen>
       child: Container(
         decoration: BoxDecoration(
           color: device.backgroundColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(device.icon,
-                  size: 50, color: const Color.fromARGB(200, 0, 0, 0)),
+              Icon(
+                device.icon,
+                size: 50,
+                color: const Color(0xFF021024),
+              ),
               const SizedBox(height: 8),
               Text(
                 device.name,

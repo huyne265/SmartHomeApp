@@ -62,16 +62,17 @@ class _DashboardState extends State<Dashboard>
           isLoading = true;
           _dashboardinit(temp, humidity, airlevel, lightlevel);
         });
-        Future.delayed(const Duration(seconds: 1), () {
-          _startRealtimeUpdates();
-        });
+        _startRealtimeUpdates();
+        // Future.delayed(const Duration(seconds: 1), () {
+        //   _startRealtimeUpdates();
+        // });
       }
     });
   }
 
   _dashboardinit(double temp, double humid, double air, double light) {
     progressController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1000)); //3s
+        vsync: this, duration: const Duration(milliseconds: 3000)); //3s
 
     tempAnimation =
         Tween<double>(begin: 0, end: temp).animate(progressController)
@@ -101,7 +102,7 @@ class _DashboardState extends State<Dashboard>
   }
 
   void _startRealtimeUpdates() {
-    databaseReference.child('Home').onValue.listen((DatabaseEvent event) async {
+    databaseReference.child('Home').once().then((DatabaseEvent event) {
       final DataSnapshot snapshot = event.snapshot;
 
       if (snapshot.value != null) {
@@ -110,25 +111,22 @@ class _DashboardState extends State<Dashboard>
 
         double temp =
             double.tryParse(data['homeTemperature']?.toString() ?? '') ?? 0.0;
-        await Future.delayed(const Duration(milliseconds: 10));
+        // await Future.delayed(const Duration(milliseconds: 10));
         double humidity =
             double.tryParse(data['homeHumidity']?.toString() ?? '') ?? 0.0;
-        await Future.delayed(const Duration(milliseconds: 10));
+        // await Future.delayed(const Duration(milliseconds: 10));
         double airlevel =
             double.tryParse(data['homeAirlevel']?.toString() ?? '') ?? 0.0;
-        await Future.delayed(const Duration(milliseconds: 10));
+        // await Future.delayed(const Duration(milliseconds: 10));
         double lightlevel =
             double.tryParse(data['homeLightlevel']?.toString() ?? '') ?? 0.0;
-        await Future.delayed(const Duration(milliseconds: 10));
+        // await Future.delayed(const Duration(milliseconds: 10));
 
         setState(() {
           isLoading = true;
           _dashboardUpdate(temp, humidity, airlevel, lightlevel);
         });
-
-        Future.delayed(const Duration(seconds: 3), () {
-          _startRealtimeUpdates();
-        });
+        _startRealtimeUpdates();
       }
     });
   }

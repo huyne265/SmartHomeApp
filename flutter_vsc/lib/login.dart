@@ -131,8 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _emailController,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'Email ID',
-                  hintStyle: const TextStyle(color: Colors.white),
+                  labelText: 'Email ID',
+                  labelStyle: const TextStyle(color: Colors.white),
                   // filled: true,
                   // fillColor: Color(0xFF7da0ca),
                   enabledBorder: OutlineInputBorder(
@@ -148,13 +148,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
+                keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  hintText: 'Enter Password',
-                  hintStyle: const TextStyle(color: Colors.white),
+                  labelText: 'Enter Password',
+                  labelStyle: const TextStyle(color: Colors.white),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                       color: Color(0xFFc1e8ff),
