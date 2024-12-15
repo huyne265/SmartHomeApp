@@ -126,9 +126,9 @@ class _FanControlUIState extends State<FanControlUI> {
               ),
               const SizedBox(height: 10),
               ToggleButtons(
-                isSelected: [fanMode == "Automatic", fanMode == "Manual"],
+                isSelected: [fanMode == "Auto", fanMode == "Manual"],
                 onPressed: (index) {
-                  _updateFanMode(index == 0 ? "Automatic" : "Manual");
+                  _updateFanMode(index == 0 ? "Auto" : "Manual");
                 },
                 borderRadius: BorderRadius.circular(20),
                 selectedColor: Color(0xFFc1e8ff),
@@ -143,7 +143,7 @@ class _FanControlUIState extends State<FanControlUI> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: fanMode == "Automatic"
+                        color: fanMode == "Auto"
                             ? Color(0xFF021024)
                             : Color(0xFFc1e8ff),
                       ),
