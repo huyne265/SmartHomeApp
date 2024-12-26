@@ -12,7 +12,7 @@ class _FanControlUIState extends State<FanControlUI> {
   final DatabaseReference databaseRef = FirebaseDatabase.instance.ref();
   String fanMode = "Manual"; // Default mode
   double fanSpeed = 100; // Default speed
-  bool isFanOn = true; // Default fan status (ON)
+  // bool isFanOn = true; // Default fan status (ON)
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -26,12 +26,12 @@ class _FanControlUIState extends State<FanControlUI> {
     // Get initial data from Firebase
     DataSnapshot modeSnapshot = await databaseRef.child('Fan/mode').get();
     DataSnapshot speedSnapshot = await databaseRef.child('Fan/speed').get();
-    DataSnapshot statusSnapshot = await databaseRef.child('Fan/status').get();
+    // DataSnapshot statusSnapshot = await databaseRef.child('Fan/status').get();
 
     setState(() {
       fanMode = modeSnapshot.value as String? ?? "Manual";
       fanSpeed = (speedSnapshot.value as num?)?.toDouble() ?? 100.0;
-      isFanOn = statusSnapshot.value as bool? ?? true;
+      // isFanOn = statusSnapshot.value as bool? ?? true;
     });
   }
 
@@ -53,12 +53,12 @@ class _FanControlUIState extends State<FanControlUI> {
     databaseRef.child('Fan/speed').set(speed.toInt());
   }
 
-  void _toggleFanStatus() {
-    setState(() {
-      isFanOn = !isFanOn;
-    });
-    databaseRef.child('Fan/status').set(isFanOn);
-  }
+  // void _toggleFanStatus() {
+  //   setState(() {
+  //     isFanOn = !isFanOn;
+  //   });
+  //   databaseRef.child('Fan/status').set(isFanOn);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -94,25 +94,25 @@ class _FanControlUIState extends State<FanControlUI> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Fan Status (ON/OFF)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    isFanOn ? "Fan ON" : "Fan OFF",
-                    style: const TextStyle(
-                      color: Color(0xFFc1e8ff),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Switch(
-                    value: isFanOn,
-                    onChanged: (value) => _toggleFanStatus(),
-                    activeColor: Color(0xFFc1e8ff),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(
+              //       isFanOn ? "Fan ON" : "Fan OFF",
+              //       style: const TextStyle(
+              //         color: Color(0xFFc1e8ff),
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 18,
+              //       ),
+              //     ),
+              //     const SizedBox(height: 20),
+              //     Switch(
+              //       value: isFanOn,
+              //       onChanged: (value) => _toggleFanStatus(),
+              //       activeColor: Color(0xFFc1e8ff),
+              //     ),
+              //   ],
+              // ),
               const SizedBox(height: 20),
 
               // Fan Mode Selection

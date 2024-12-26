@@ -218,9 +218,9 @@ class _DashboardState extends State<Dashboard>
                     text: "Button Taskboard"),
                 Tab(
                   icon: Icon(Icons.wb_iridescent_rounded),
-                  text: "IR Device",
+                  text: "Device",
                 ),
-                Tab(icon: Icon(Icons.schedule), text: "Schedule"),
+                Tab(icon: Icon(Icons.schedule), text: "Scheduler"),
                 Tab(icon: Icon(Icons.logout), text: "Log out"),
               ],
               labelColor: Color(0xFFc1e8ff),

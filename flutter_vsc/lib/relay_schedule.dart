@@ -68,7 +68,9 @@ class _ScheduleAppState extends State<ScheduleApp> {
     Duration timeUntilActivation = scheduledTime.difference(now);
 
     Timer timer = Timer(timeUntilActivation, () {
-      _toggleRelay('Relay${schedule['relay']}', schedule['action']);
+      String relayKey =
+          schedule['relay'] == 5 ? 'Relay5' : 'Relay${schedule['relay']}';
+      _toggleRelay(relayKey, schedule['action']);
       if (schedule['repeatDaily'] == true) {
         schedule['enabled'] = true; // Reset enabled
         _scheduleRelayAction(schedule); // Schedule for the next day
@@ -83,10 +85,13 @@ class _ScheduleAppState extends State<ScheduleApp> {
   }
 
   void _toggleRelay(String relayKey, bool status) {
-    // Cập nhật trạng thái relay trên Firebase
-    databaseReference.child('Relay').update({
-      relayKey: status ? "1" : "0",
-    });
+    if (relayKey == 'Relay5') {
+      databaseReference.child('Fan/status').set(false);
+    } else {
+      databaseReference.child('Relay').update({
+        relayKey: status ? "1" : "0",
+      });
+    }
   }
 
   void _editSchedule(int index) {
@@ -283,7 +288,12 @@ class _ScheduleAppState extends State<ScheduleApp> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text("Cancel"),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Color(0xFF5483b3),
+                    ),
+                  ),
                 ),
                 TextButton(
                   onPressed: selectedRelay != null &&
