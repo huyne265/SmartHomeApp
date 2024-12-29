@@ -174,7 +174,7 @@ class _DashboardState extends State<Dashboard>
             backgroundColor: const Color(0xFF021024),
             title: const Text(
               'Smart Room App',
-              style: const TextStyle(
+              style: TextStyle(
                   color: Color(0xFFc1e8ff), fontWeight: FontWeight.bold),
             ),
           ),
@@ -213,9 +213,7 @@ class _DashboardState extends State<Dashboard>
             child: TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.home), text: "Home"),
-                Tab(
-                    icon: Icon(Icons.radio_button_checked),
-                    text: "Button Taskboard"),
+                Tab(icon: Icon(Icons.radio_button_checked), text: "Button"),
                 Tab(
                   icon: Icon(Icons.wb_iridescent_rounded),
                   text: "Device",

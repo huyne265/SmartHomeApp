@@ -42,6 +42,9 @@ class _DeviceControllerScreen extends State<DeviceControllerScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Lấy kích thước màn hình bằng MediaQuery
+    final Size screenSize = MediaQuery.of(context).size;
+
     final List<Device> devices = [
       Device(
         name: "Fan",
@@ -91,7 +94,7 @@ class _DeviceControllerScreen extends State<DeviceControllerScreen>
         title: const Text('Device Controller',
             style: TextStyle(
                 fontWeight: FontWeight.bold, color: Color(0xFF021024))),
-        backgroundColor: Color(0xFFc1e8ff),
+        backgroundColor: const Color(0xFFc1e8ff),
         elevation: 0,
         centerTitle: true,
       ),
@@ -101,7 +104,6 @@ class _DeviceControllerScreen extends State<DeviceControllerScreen>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              // Color(0xFFc1e8ff),
               Color(0xFF7da0ca),
               Color(0xFF5483b3),
               Color(0xFF2b669c),
@@ -110,14 +112,13 @@ class _DeviceControllerScreen extends State<DeviceControllerScreen>
             ],
           ),
         ),
-        // color: Colors.white,
         child: GridView.builder(
           padding: const EdgeInsets.all(16),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: (screenSize.width > 600) ? 3 : 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            childAspectRatio: 1,
+            childAspectRatio: (screenSize.width > 600) ? 1.2 : 1,
           ),
           itemCount: devices.length,
           itemBuilder: (context, index) {

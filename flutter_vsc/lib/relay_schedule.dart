@@ -85,13 +85,11 @@ class _ScheduleAppState extends State<ScheduleApp> {
   }
 
   void _toggleRelay(String relayKey, bool status) {
-    if (relayKey == 'Relay5') {
-      databaseReference.child('Fan/status').set(false);
-    } else {
-      databaseReference.child('Relay').update({
-        relayKey: status ? "1" : "0",
-      });
-    }
+    databaseReference.child('Relay').update({
+      relayKey: status ? 1 : 0,
+    });
+
+    databaseReference.child('Relay/Mode').set('Manual');
   }
 
   void _editSchedule(int index) {

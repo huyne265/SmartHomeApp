@@ -113,7 +113,7 @@ class RelayScheduleService {
 
   void _toggleRelay(String relayKey, bool status) {
     databaseReference.child('Relay').update({
-      relayKey: status ? "1" : "0",
+      relayKey: status ? 1 : 0,
     });
   }
 

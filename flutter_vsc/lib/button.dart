@@ -52,7 +52,14 @@ class _RelayControlPageState extends State<RelayControlPage> {
         });
       }
     });
-
+    databaseReference.child('Relay/Mode').onValue.listen((event) {
+      final data = event.snapshot.value;
+      if (data != null) {
+        setState(() {
+          isManualMode = (data == 'Manual');
+        });
+      }
+    });
     _updateModeInFirebase();
   }
 
@@ -67,19 +74,49 @@ class _RelayControlPageState extends State<RelayControlPage> {
 
     if (!isManualMode) {
       //Relay1 - light
-      if (lightValue < 6 && !relay1) {
+      if (lightValue < 200) {
         setState(() {
-          relay1 = true;
+          if (!relay1) relay1 = true;
+          if (!relay2) relay2 = true;
+          if (!relay3) relay3 = true;
+          if (!relay4) relay4 = true;
         });
-        _toggleRelay('Relay1', true);
-      } else if (lightValue > 90 && relay1) {
+        databaseReference.child('Relay').update({
+          'Relay1': 1,
+        });
+        databaseReference.child('Relay').update({
+          'Relay2': 1,
+        });
+        databaseReference.child('Relay').update({
+          'Relay3': 1,
+        });
+        databaseReference.child('Relay').update({
+          'Relay4': 1,
+        });
+      } else if (lightValue > 1000) {
         setState(() {
-          relay1 = false;
+          if (relay1) relay1 = false;
+          if (relay2) relay2 = false;
+          if (relay3) relay3 = false;
+          if (relay4) relay4 = false;
         });
-        _toggleRelay('Relay1', false);
+        databaseReference.child('Relay').update({
+          'Relay1': 0,
+        });
+        databaseReference.child('Relay').update({
+          'Relay2': 0,
+        });
+        databaseReference.child('Relay').update({
+          'Relay3': 0,
+        });
+        databaseReference.child('Relay').update({
+          'Relay4': 0,
+        });
       }
     }
   }
+  // void _updateRealy2(double newValue){
+  // }
 
   void _toggleRelay(String relayKey, bool status) {
     if (isManualMode) {
@@ -211,16 +248,16 @@ class _RelayControlPageState extends State<RelayControlPage> {
                   runSpacing: 20,
                   alignment: WrapAlignment.center,
                   children: [
-                    _buildRelayCard("Relay 1", relay1, () {
+                    _buildRelayCard("Light 1", relay1, () {
                       _toggleRelay('Relay1', !relay1);
                     }),
-                    _buildRelayCard("Relay 2", relay2, () {
+                    _buildRelayCard("Light 2", relay2, () {
                       _toggleRelay('Relay2', !relay2);
                     }),
-                    _buildRelayCard("Relay 3", relay3, () {
+                    _buildRelayCard("Light 3", relay3, () {
                       _toggleRelay('Relay3', !relay3);
                     }),
-                    _buildRelayCard("Relay 4", relay4, () {
+                    _buildRelayCard("Light 4", relay4, () {
                       _toggleRelay('Relay4', !relay4);
                     }),
                   ],

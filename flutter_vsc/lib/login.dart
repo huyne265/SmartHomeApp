@@ -91,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -120,13 +121,17 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 20),
-              Image.asset(
-                'images/smart.jpg',
-                width: 300,
-                height: 300,
+              const SizedBox(height: 50),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: Image.asset(
+                  'images/Logo1.png',
+                  width: screenSize.width * 0.8,
+                  height: screenSize.width * 0.8,
+                  fit: BoxFit.cover,
+                ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               TextField(
                 controller: _emailController,
                 style: const TextStyle(color: Colors.white),
@@ -171,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 obscureText: true,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: _handleEmailSignIn,
                 style: ElevatedButton.styleFrom(
@@ -188,48 +193,48 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 50,
               ),
-              TextButton(
-                onPressed: _handleGoogleSignIn,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'images/logo.jpg',
-                      height: 24,
-                      width: 24,
-                    ),
-                    const SizedBox(width: 10),
-                    const Text(
-                      'Sign in with Google',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
-                  );
-                },
-                child: const Text(
-                  'Don\'t have an account yet? Create an account',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              // TextButton(
+              //   onPressed: _handleGoogleSignIn,
+              //   child: Row(
+              //     mainAxisSize: MainAxisSize.min,
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Image.asset(
+              //         'images/logo.jpg',
+              //         height: 24,
+              //         width: 24,
+              //       ),
+              //       const SizedBox(width: 10),
+              //       const Text(
+              //         'Sign in with Google',
+              //         style: TextStyle(
+              //           fontSize: 15,
+              //           color: Colors.white,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // const SizedBox(height: 16),
+              // TextButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => RegisterScreen()),
+              //     );
+              //   },
+              //   child: const Text(
+              //     'Don\'t have an account yet? Create an account',
+              //     style: TextStyle(
+              //       fontSize: 15,
+              //       color: Colors.white,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

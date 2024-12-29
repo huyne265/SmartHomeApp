@@ -74,8 +74,8 @@ class _IRDeviceUIState extends State<IRDeviceUI> {
         ),
         child: Center(
           child: Container(
-            margin: const EdgeInsets.all(20),
-            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.all(40),
+            padding: const EdgeInsets.all(30),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.9),
               borderRadius: BorderRadius.circular(30),
@@ -97,7 +97,7 @@ class _IRDeviceUIState extends State<IRDeviceUI> {
 
   Widget _buildButtonGrid(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final buttonSize = screenWidth < 400 ? 40.0 : 60.0;
+    final buttonSize = screenWidth < 400 ? 65.0 : 70.0;
 
     List<List<String>> buttonRows = [
       ['1', '2', '3'],

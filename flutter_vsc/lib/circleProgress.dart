@@ -23,7 +23,7 @@ class CircleProgress extends CustomPainter {
       maximumValue = maxValue;
       arcPaint = Paint()
         ..strokeWidth = 16
-        ..color = (value < maxValue * 0.9)
+        ..color = (value < maxValue * 0.4)
             ? const Color.fromARGB(255, 61, 253, 93)
             : (const Color.fromARGB(255, 255, 17, 0))
         ..style = PaintingStyle.stroke
@@ -41,7 +41,7 @@ class CircleProgress extends CustomPainter {
       maximumValue = maxValue;
       arcPaint = Paint()
         ..strokeWidth = 16
-        ..color = (value < maxValue * 0.9)
+        ..color = (value < 2000)
             ? const Color.fromARGB(255, 255, 0, 85)
             : const Color.fromARGB(255, 255, 17, 0)
         ..style = PaintingStyle.stroke

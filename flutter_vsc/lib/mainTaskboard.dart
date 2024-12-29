@@ -94,7 +94,7 @@ class _MainTaskboardState extends State<MainTaskboard> {
                             CustomPaint(
                               foregroundPainter: CircleProgress(
                                   widget.airLevelValue, "air",
-                                  maxValue: 2000),
+                                  maxValue: 3000),
                               child: Container(
                                 width: 150,
                                 height: 150,
@@ -129,7 +129,7 @@ class _MainTaskboardState extends State<MainTaskboard> {
                             CustomPaint(
                               foregroundPainter: CircleProgress(
                                   widget.humidityValue, "humid",
-                                  maxValue: 200),
+                                  maxValue: 100),
                               child: Container(
                                 width: 150,
                                 height: 150,
