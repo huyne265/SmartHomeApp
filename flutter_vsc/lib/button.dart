@@ -83,14 +83,8 @@ class _RelayControlPageState extends State<RelayControlPage> {
         });
         databaseReference.child('Relay').update({
           'Relay1': 1,
-        });
-        databaseReference.child('Relay').update({
           'Relay2': 1,
-        });
-        databaseReference.child('Relay').update({
           'Relay3': 1,
-        });
-        databaseReference.child('Relay').update({
           'Relay4': 1,
         });
       } else if (lightValue > 1000) {
@@ -102,14 +96,8 @@ class _RelayControlPageState extends State<RelayControlPage> {
         });
         databaseReference.child('Relay').update({
           'Relay1': 0,
-        });
-        databaseReference.child('Relay').update({
           'Relay2': 0,
-        });
-        databaseReference.child('Relay').update({
           'Relay3': 0,
-        });
-        databaseReference.child('Relay').update({
           'Relay4': 0,
         });
       }
